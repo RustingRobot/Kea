@@ -1,0 +1,155 @@
+﻿using HtmlAgilityPack;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Kea
+{
+    public partial class Form1 : Form
+    {
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
+        public Form1()
+        {
+            InitializeComponent();
+            QueueGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+        }
+
+        private void HandleBar_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+
+        private void exitBtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void addToQueueBtn_Click(object sender, EventArgs e)
+        {
+            QueueTextbox.Text += (QueueTextbox.Text!= "")? "\n" + URLTextbox.Text : URLTextbox.Text;
+            List<string> lines = new List<string>();
+            lines.AddRange(URLTextbox.Text.Split('\n'));
+            foreach (var line in lines)
+            {
+                int nameEnd = 0;
+                int nameStart = 0;
+                for (int i = 0; i < 6; i++)
+                {
+                    nameStart = nameEnd;
+                    while (line[nameEnd] != '/') nameEnd++;
+                    nameEnd++;
+                }
+                QueueGrid.Rows.Add(line.Substring(nameStart, nameEnd-nameStart-1),"#1","(end)");
+            }
+            URLTextbox.Text = "";
+        }
+
+        private void startBtn_Click(object sender, EventArgs e)
+        {
+            List<string> lines = new List<string>();
+            lines.AddRange(QueueTextbox.Text.Split('\n'));
+
+            List<string> chapterLinks = new List<string>();
+            List<string> chapterNames = new List<string>();
+            List<string[]> ToonChapters = new List<string[]>(), ToonChapterNames = new List<string[]>();
+
+            foreach (string line in lines)  //get all chapter links
+            {
+                chapterLinks.RemoveRange(0,chapterLinks.Count);
+                int urlEnd = (line.IndexOf('&') == -1) ? line.Length : line.IndexOf('&');
+                using (WebClient client = new WebClient())
+                {
+                    int i = 0;
+                    string firstLink = "Thanks for looking through my source code lol";
+                    bool checkedForLink, foundEnd = false;
+                    while (true)
+                    {
+                        i++;
+                        string html = client.DownloadString(line.Substring(0,urlEnd) + "&page=" + i);
+                        var doc = new HtmlAgilityPack.HtmlDocument();
+                        doc.LoadHtml(html);
+                        var div = doc.GetElementbyId("_listUl");
+                        HtmlNodeCollection childNodes = div.ChildNodes;
+                        checkedForLink = false;
+                        for (int j = 0; j < childNodes.Count; j++)
+                        {
+                            if (childNodes[j].HasChildNodes)
+                            {
+                                if (!checkedForLink && firstLink != childNodes[j].ChildNodes[1].Attributes["href"].Value)
+                                {
+                                    firstLink = childNodes[j].ChildNodes[1].Attributes["href"].Value;
+                                    checkedForLink = true;
+                                }
+                                else if (!checkedForLink) { foundEnd = true; break; }
+                                chapterLinks.Add(childNodes[j].ChildNodes[1].Attributes["href"].Value);
+                                chapterNames.Add(childNodes[j].ChildNodes[1].ChildNodes[3].ChildNodes[0].InnerHtml);
+                            }
+                        }
+                        if (foundEnd) break;
+                    }
+                }
+                chapterLinks.Reverse();
+                string[] tempChapterLinks = new string[chapterLinks.Count];
+                for (int i = 0; i < chapterLinks.Count; i++) tempChapterLinks[i] = chapterLinks[i];
+                ToonChapters.Add(tempChapterLinks);
+                chapterNames.Reverse();
+                string[] tempChapterNames = new string[chapterNames.Count];
+                for (int i = 0; i < chapterNames.Count; i++) tempChapterNames[i] = chapterNames[i];
+                ToonChapterNames.Add(tempChapterNames);
+            }
+            for (int t = 0; t < ToonChapters.Count; t++)    //for each cartoon in queue...
+            {
+                string curName = QueueGrid.Rows[t].Cells[0].Value.ToString();
+                Directory.CreateDirectory(@"D:\Desktop\testing\" + curName);
+                for (int i = 0; i < ToonChapters[t].Length; i++)    //...and for each chapter in that cartoon...
+                {
+                    processInfo.Text = "grabbing the html of " + ToonChapters[t][i];
+                    using (WebClient client = new WebClient())
+                    {
+                        string html = client.DownloadString(ToonChapters[t][i]);
+                        var doc = new HtmlAgilityPack.HtmlDocument();
+                        doc.LoadHtml(html);
+                        var div = doc.GetElementbyId("_imageList");
+                        HtmlNodeCollection childNodes = div.ChildNodes;
+                        Directory.CreateDirectory(@"D:\Desktop\testing\" + curName + @"\" + ToonChapterNames[t][i]);
+                        for (int j = 0; j < childNodes.Count; j++)  //...download all images!
+                        {
+                            if (childNodes[j].NodeType == HtmlNodeType.Element)
+                            {
+                                processInfo.Text = "downloading image " + j / 2 + " of chapter " + i + 1 + "of the cartoon \"" + curName + "\"!";
+                                client.Headers.Add("Referer", ToonChapters[t][i]);    //refresh the referer for each request!
+                                client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), @"D:\Desktop\testing\" + curName + @"\" + ToonChapterNames[t][i] + @"\image " + j / 2 + ".jpg");
+                                System.Threading.Thread.Sleep(1000);
+                            }
+                        }
+                    }
+                }
+            }
+            processInfo.Text = "done!";
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)    //debugging for now
+        {
+
+        }
+    }
+}
