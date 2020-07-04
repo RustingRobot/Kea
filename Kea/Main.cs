@@ -13,7 +13,7 @@ using System.Windows.Forms;
 
 namespace Kea
 {
-    public partial class Form1 : Form
+    public partial class Main : Form
     {
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
@@ -23,7 +23,7 @@ namespace Kea
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        public Form1()
+        public Main()
         {
             InitializeComponent();
             QueueGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
