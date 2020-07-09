@@ -32,7 +32,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.URLTextbox = new System.Windows.Forms.RichTextBox();
             this.exitBtn = new System.Windows.Forms.PictureBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.startBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
@@ -45,6 +44,11 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.QueueTextbox = new System.Windows.Forms.RichTextBox();
+            this.savepathTB = new System.Windows.Forms.TextBox();
+            this.selectFolderBtn = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cartoonFoldersCB = new System.Windows.Forms.CheckBox();
+            this.chapterFoldersCB = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.HandleBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exitBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QueueGrid)).BeginInit();
@@ -91,23 +95,12 @@
             this.exitBtn.TabStop = false;
             this.exitBtn.Click += new System.EventHandler(this.exitBtn_Click);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label2.Location = new System.Drawing.Point(12, 163);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(48, 15);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "options";
-            // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label3.Location = new System.Drawing.Point(9, 208);
+            this.label3.Location = new System.Drawing.Point(9, 203);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(42, 15);
             this.label3.TabIndex = 6;
@@ -119,9 +112,9 @@
             this.startBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.startBtn.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold);
             this.startBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.startBtn.Location = new System.Drawing.Point(12, 438);
+            this.startBtn.Location = new System.Drawing.Point(410, 499);
             this.startBtn.Name = "startBtn";
-            this.startBtn.Size = new System.Drawing.Size(107, 26);
+            this.startBtn.Size = new System.Drawing.Size(119, 26);
             this.startBtn.TabIndex = 8;
             this.startBtn.Text = "start";
             this.startBtn.UseVisualStyleBackColor = false;
@@ -133,9 +126,9 @@
             this.cancelBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cancelBtn.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold);
             this.cancelBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.cancelBtn.Location = new System.Drawing.Point(425, 438);
+            this.cancelBtn.Location = new System.Drawing.Point(9, 499);
             this.cancelBtn.Name = "cancelBtn";
-            this.cancelBtn.Size = new System.Drawing.Size(107, 26);
+            this.cancelBtn.Size = new System.Drawing.Size(119, 26);
             this.cancelBtn.TabIndex = 9;
             this.cancelBtn.Text = "cancel";
             this.cancelBtn.UseVisualStyleBackColor = false;
@@ -145,7 +138,7 @@
             // 
             this.progressBar1.BackColor = System.Drawing.Color.White;
             this.progressBar1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.progressBar1.Location = new System.Drawing.Point(0, 472);
+            this.progressBar1.Location = new System.Drawing.Point(0, 534);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(544, 20);
             this.progressBar1.Step = 1;
@@ -157,9 +150,9 @@
             this.addToQueueBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addToQueueBtn.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold);
             this.addToQueueBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.addToQueueBtn.Location = new System.Drawing.Point(350, 164);
+            this.addToQueueBtn.Location = new System.Drawing.Point(12, 164);
             this.addToQueueBtn.Name = "addToQueueBtn";
-            this.addToQueueBtn.Size = new System.Drawing.Size(182, 26);
+            this.addToQueueBtn.Size = new System.Drawing.Size(122, 26);
             this.addToQueueBtn.TabIndex = 11;
             this.addToQueueBtn.Text = "add all to queue";
             this.addToQueueBtn.UseVisualStyleBackColor = false;
@@ -170,7 +163,7 @@
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label4.Location = new System.Drawing.Point(12, 394);
+            this.label4.Location = new System.Drawing.Point(9, 475);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(122, 15);
             this.label4.TabIndex = 12;
@@ -178,10 +171,10 @@
             // 
             // processInfo
             // 
-            this.processInfo.Location = new System.Drawing.Point(12, 412);
+            this.processInfo.Location = new System.Drawing.Point(133, 473);
             this.processInfo.Name = "processInfo";
             this.processInfo.ReadOnly = true;
-            this.processInfo.Size = new System.Drawing.Size(520, 20);
+            this.processInfo.Size = new System.Drawing.Size(396, 20);
             this.processInfo.TabIndex = 13;
             // 
             // QueueGrid
@@ -198,11 +191,11 @@
             this.Column2,
             this.Column3});
             this.QueueGrid.Cursor = System.Windows.Forms.Cursors.Default;
-            this.QueueGrid.Location = new System.Drawing.Point(12, 226);
+            this.QueueGrid.Location = new System.Drawing.Point(12, 221);
             this.QueueGrid.MultiSelect = false;
             this.QueueGrid.Name = "QueueGrid";
             this.QueueGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.QueueGrid.Size = new System.Drawing.Size(520, 165);
+            this.QueueGrid.Size = new System.Drawing.Size(520, 146);
             this.QueueGrid.TabIndex = 14;
             // 
             // Column1
@@ -232,7 +225,7 @@
             // QueueTextbox
             // 
             this.QueueTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.QueueTextbox.Location = new System.Drawing.Point(12, 226);
+            this.QueueTextbox.Location = new System.Drawing.Point(12, 221);
             this.QueueTextbox.Name = "QueueTextbox";
             this.QueueTextbox.ReadOnly = true;
             this.QueueTextbox.Size = new System.Drawing.Size(520, 40);
@@ -240,12 +233,74 @@
             this.QueueTextbox.Text = "";
             this.QueueTextbox.Visible = false;
             // 
+            // savepathTB
+            // 
+            this.savepathTB.Location = new System.Drawing.Point(12, 395);
+            this.savepathTB.Name = "savepathTB";
+            this.savepathTB.ReadOnly = true;
+            this.savepathTB.Size = new System.Drawing.Size(480, 20);
+            this.savepathTB.TabIndex = 15;
+            // 
+            // selectFolderBtn
+            // 
+            this.selectFolderBtn.BackColor = System.Drawing.Color.White;
+            this.selectFolderBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.selectFolderBtn.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold);
+            this.selectFolderBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.selectFolderBtn.Location = new System.Drawing.Point(498, 395);
+            this.selectFolderBtn.Name = "selectFolderBtn";
+            this.selectFolderBtn.Size = new System.Drawing.Size(31, 20);
+            this.selectFolderBtn.TabIndex = 16;
+            this.selectFolderBtn.Text = "...";
+            this.selectFolderBtn.UseVisualStyleBackColor = false;
+            this.selectFolderBtn.Click += new System.EventHandler(this.selectFolderBtn_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label2.Location = new System.Drawing.Point(12, 422);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(118, 15);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "use sub-folders for:";
+            // 
+            // cartoonFoldersCB
+            // 
+            this.cartoonFoldersCB.AutoSize = true;
+            this.cartoonFoldersCB.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold);
+            this.cartoonFoldersCB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.cartoonFoldersCB.Location = new System.Drawing.Point(133, 421);
+            this.cartoonFoldersCB.Name = "cartoonFoldersCB";
+            this.cartoonFoldersCB.Size = new System.Drawing.Size(102, 19);
+            this.cartoonFoldersCB.TabIndex = 18;
+            this.cartoonFoldersCB.Text = "each cartoon";
+            this.cartoonFoldersCB.UseVisualStyleBackColor = true;
+            // 
+            // chapterFoldersCB
+            // 
+            this.chapterFoldersCB.AutoSize = true;
+            this.chapterFoldersCB.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold);
+            this.chapterFoldersCB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.chapterFoldersCB.Location = new System.Drawing.Point(241, 422);
+            this.chapterFoldersCB.Name = "chapterFoldersCB";
+            this.chapterFoldersCB.Size = new System.Drawing.Size(102, 19);
+            this.chapterFoldersCB.TabIndex = 19;
+            this.chapterFoldersCB.Text = "each chapter";
+            this.chapterFoldersCB.UseVisualStyleBackColor = true;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Silver;
-            this.ClientSize = new System.Drawing.Size(544, 492);
+            this.ClientSize = new System.Drawing.Size(544, 554);
+            this.Controls.Add(this.chapterFoldersCB);
+            this.Controls.Add(this.cartoonFoldersCB);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.selectFolderBtn);
+            this.Controls.Add(this.savepathTB);
             this.Controls.Add(this.QueueGrid);
             this.Controls.Add(this.processInfo);
             this.Controls.Add(this.label4);
@@ -255,7 +310,6 @@
             this.Controls.Add(this.startBtn);
             this.Controls.Add(this.QueueTextbox);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.exitBtn);
             this.Controls.Add(this.URLTextbox);
             this.Controls.Add(this.label1);
@@ -277,7 +331,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RichTextBox URLTextbox;
         private System.Windows.Forms.PictureBox exitBtn;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button startBtn;
         private System.Windows.Forms.Button cancelBtn;
@@ -290,6 +343,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.RichTextBox QueueTextbox;
+        private System.Windows.Forms.TextBox savepathTB;
+        private System.Windows.Forms.Button selectFolderBtn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.CheckBox cartoonFoldersCB;
+        private System.Windows.Forms.CheckBox chapterFoldersCB;
     }
 }
 

@@ -29,7 +29,7 @@ namespace Kea
             QueueGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
         }
 
-        private void HandleBar_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        private void HandleBar_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)  //allow moving of the window
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -38,10 +38,7 @@ namespace Kea
             }
         }
 
-        private void exitBtn_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+        private void exitBtn_Click(object sender, EventArgs e) { Application.Exit(); } //c'mon man, isn*t this obvious
 
         private void addToQueueBtn_Click(object sender, EventArgs e)
         {
@@ -67,11 +64,9 @@ namespace Kea
         {
             List<string> lines = new List<string>();
             lines.AddRange(QueueTextbox.Text.Split('\n'));
-
             List<string> chapterLinks = new List<string>();
             List<string> chapterNames = new List<string>();
             List<string[]> ToonChapters = new List<string[]>(), ToonChapterNames = new List<string[]>();
-
             foreach (string line in lines)  //get all chapter links
             {
                 chapterLinks.RemoveRange(0,chapterLinks.Count);
@@ -85,7 +80,7 @@ namespace Kea
                     {
                         i++;
                         string html = client.DownloadString(line.Substring(0,urlEnd) + "&page=" + i);
-                        var doc = new HtmlAgilityPack.HtmlDocument();
+                        var doc = new HtmlAgilityPack.HtmlDocument();   //HtmlAgility magic
                         doc.LoadHtml(html);
                         var div = doc.GetElementbyId("_listUl");
                         HtmlNodeCollection childNodes = div.ChildNodes;
@@ -94,20 +89,21 @@ namespace Kea
                         {
                             if (childNodes[j].HasChildNodes)
                             {
-                                if (!checkedForLink && firstLink != childNodes[j].ChildNodes[1].Attributes["href"].Value)
+                                if (!checkedForLink && firstLink != childNodes[j].ChildNodes[1].Attributes["href"].Value)   //stop if no higher page count could be found
                                 {
                                     firstLink = childNodes[j].ChildNodes[1].Attributes["href"].Value;
                                     checkedForLink = true;
                                 }
                                 else if (!checkedForLink) { foundEnd = true; break; }
-                                chapterLinks.Add(childNodes[j].ChildNodes[1].Attributes["href"].Value);
-                                chapterNames.Add(childNodes[j].ChildNodes[1].ChildNodes[3].ChildNodes[0].InnerHtml);
+                                chapterLinks.Add(childNodes[j].ChildNodes[1].Attributes["href"].Value); //lunk of the chapter
+                                chapterNames.Add(childNodes[j].ChildNodes[1].ChildNodes[3].ChildNodes[0].InnerHtml); //name of the chapter
                             }
                         }
                         if (foundEnd) break;
                     }
                 }
                 chapterLinks.Reverse();
+                // add all chapter links and the chapter names of the just scrapped site to the full list of the comic
                 string[] tempChapterLinks = new string[chapterLinks.Count];
                 for (int i = 0; i < chapterLinks.Count; i++) tempChapterLinks[i] = chapterLinks[i];
                 ToonChapters.Add(tempChapterLinks);
@@ -116,11 +112,16 @@ namespace Kea
                 for (int i = 0; i < chapterNames.Count; i++) tempChapterNames[i] = chapterNames[i];
                 ToonChapterNames.Add(tempChapterNames);
             }
-            for (int t = 0; t < ToonChapters.Count; t++)    //for each cartoon in queue...
+            //debugging ---
+            savepathTB.Text = @"D:\Desktop\testing\";
+            //string savePath = savepathTB.Text;
+            //-------------
+            for (int t = 0; t < ToonChapters.Count; t++)    //for each comic in queue...
             {
+                string savePath = savepathTB.Text;
                 string curName = QueueGrid.Rows[t].Cells[0].Value.ToString();
-                Directory.CreateDirectory(@"D:\Desktop\testing\" + curName);
-                for (int i = 0; i < ToonChapters[t].Length; i++)    //...and for each chapter in that cartoon...
+                if (cartoonFoldersCB.Checked) { Directory.CreateDirectory(savePath + curName); savePath += curName; }
+                for (int i = 0; i < ToonChapters[t].Length; i++)    //...and for each chapter in that comic...
                 {
                     processInfo.Text = "grabbing the html of " + ToonChapters[t][i];
                     using (WebClient client = new WebClient())
@@ -130,14 +131,14 @@ namespace Kea
                         doc.LoadHtml(html);
                         var div = doc.GetElementbyId("_imageList");
                         HtmlNodeCollection childNodes = div.ChildNodes;
-                        Directory.CreateDirectory(@"D:\Desktop\testing\" + curName + @"\" + ToonChapterNames[t][i]);
+                        if (chapterFoldersCB.Checked) { Directory.CreateDirectory(savePath + @"\" + ToonChapterNames[t][i]); savePath += @"\" + ToonChapterNames[t][i]; }
                         for (int j = 0; j < childNodes.Count; j++)  //...download all images!
                         {
                             if (childNodes[j].NodeType == HtmlNodeType.Element)
                             {
-                                processInfo.Text = "downloading image " + j / 2 + " of chapter " + i + 1 + "of the cartoon \"" + curName + "\"!";
+                                processInfo.Text = "downloading image " + j / 2 + " of chapter " + i + 1 + "of the comic \"" + curName + "\"!";
                                 client.Headers.Add("Referer", ToonChapters[t][i]);    //refresh the referer for each request!
-                                client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), @"D:\Desktop\testing\" + curName + @"\" + ToonChapterNames[t][i] + @"\image " + j / 2 + ".jpg");
+                                client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), savePath + @"\image " + j / 2 + ".jpg");
                                 System.Threading.Thread.Sleep(1000);
                             }
                         }
@@ -150,6 +151,16 @@ namespace Kea
         private void cancelBtn_Click(object sender, EventArgs e)    //debugging for now
         {
 
+        }
+
+        private void selectFolderBtn_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofile = new OpenFileDialog();
+            ofile.Filter = "Image|*.bmp;*.jpg;*.png";
+            if (DialogResult.OK == ofile.ShowDialog())
+            {
+                savepathTB.Text = ofile.FileName;
+            }
         }
     }
 }
