@@ -112,13 +112,9 @@ namespace Kea
                 for (int i = 0; i < chapterNames.Count; i++) tempChapterNames[i] = chapterNames[i];
                 ToonChapterNames.Add(tempChapterNames);
             }
-            //debugging ---
-            savepathTB.Text = @"D:\Desktop\testing\";
-            //string savePath = savepathTB.Text;
-            //-------------
             for (int t = 0; t < ToonChapters.Count; t++)    //for each comic in queue...
             {
-                string savePath = savepathTB.Text;
+                string savePath = savepathTB.Text + @"\";
                 string curName = QueueGrid.Rows[t].Cells[0].Value.ToString();
                 if (cartoonFoldersCB.Checked) { Directory.CreateDirectory(savePath + curName); savePath += curName; }
                 for (int i = 0; i < ToonChapters[t].Length; i++)    //...and for each chapter in that comic...
@@ -131,14 +127,21 @@ namespace Kea
                         doc.LoadHtml(html);
                         var div = doc.GetElementbyId("_imageList");
                         HtmlNodeCollection childNodes = div.ChildNodes;
-                        if (chapterFoldersCB.Checked) { Directory.CreateDirectory(savePath + @"\" + ToonChapterNames[t][i]); savePath += @"\" + ToonChapterNames[t][i]; }
+                        if (chapterFoldersCB.Checked) { Directory.CreateDirectory(savePath + @"\" + ToonChapterNames[t][i]); }
                         for (int j = 0; j < childNodes.Count; j++)  //...download all images!
                         {
                             if (childNodes[j].NodeType == HtmlNodeType.Element)
                             {
-                                processInfo.Text = "downloading image " + j / 2 + " of chapter " + i + 1 + "of the comic \"" + curName + "\"!";
+                                processInfo.Text = "downloading image " + j / 2 + " of chapter " + (i + 1) + "of the comic \"" + curName + "\"!";
                                 client.Headers.Add("Referer", ToonChapters[t][i]);    //refresh the referer for each request!
-                                client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), savePath + @"\image " + j / 2 + ".jpg");
+                                if (chapterFoldersCB.Checked)
+                                {
+                                    client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), savePath + @"\" + ToonChapterNames[t][i] + @"\image " + j / 2 + ".jpg");
+                                }
+                                else
+                                {
+                                    client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), savePath + @"\image " + j / 2 + ".jpg");
+                                }
                                 System.Threading.Thread.Sleep(1000);
                             }
                         }
@@ -156,10 +159,13 @@ namespace Kea
         private void selectFolderBtn_Click(object sender, EventArgs e)
         {
             OpenFileDialog ofile = new OpenFileDialog();
-            ofile.Filter = "Image|*.bmp;*.jpg;*.png";
+            ofile.ValidateNames = false;
+            ofile.CheckFileExists = false;
+            ofile.CheckPathExists = true;
+            ofile.FileName = "Folder Selection";
             if (DialogResult.OK == ofile.ShowDialog())
             {
-                savepathTB.Text = ofile.FileName;
+                savepathTB.Text = Path.GetDirectoryName(ofile.FileName);
             }
         }
     }
