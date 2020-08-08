@@ -204,11 +204,11 @@
             this.Column3});
             this.QueueGrid.Cursor = System.Windows.Forms.Cursors.Default;
             this.QueueGrid.GridColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.QueueGrid.Location = new System.Drawing.Point(12, 221);
+            this.QueueGrid.Location = new System.Drawing.Point(12, 290);
             this.QueueGrid.MultiSelect = false;
             this.QueueGrid.Name = "QueueGrid";
             this.QueueGrid.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.QueueGrid.Size = new System.Drawing.Size(520, 146);
+            this.QueueGrid.Size = new System.Drawing.Size(520, 77);
             this.QueueGrid.TabIndex = 14;
             // 
             // Column1
@@ -244,7 +244,6 @@
             this.QueueTextbox.Size = new System.Drawing.Size(520, 63);
             this.QueueTextbox.TabIndex = 7;
             this.QueueTextbox.Text = "";
-            this.QueueTextbox.Visible = false;
             // 
             // savepathTB
             // 
