@@ -8,7 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace Kea
@@ -38,30 +38,50 @@ namespace Kea
             }
         }
 
-        private void exitBtn_Click(object sender, EventArgs e) { Application.Exit(); } //c'mon man, isn*t this obvious
+        private void exitBtn_Click(object sender, EventArgs e) { Application.Exit(); } //c'mon man, isn't this obvious
+        private void exitBtn_MouseEnter(object sender, EventArgs e) { exitBtn.BackColor = Color.FromArgb(255, 38, 38, 38); }
+        private void exitBtn_MouseLeave(object sender, EventArgs e) { exitBtn.BackColor = Color.FromArgb(255, 64, 64, 64); }
+
+        private void minimizeBtn_Click(object sender, EventArgs e) { WindowState = FormWindowState.Minimized; } //c'mon man, isn't this obvious
+        private void minimizeBtn_MouseEnter(object sender, EventArgs e) { minimizeBtn.BackColor = Color.FromArgb(255, 38, 38, 38); }
+        private void minimizeBtn_MouseLeave(object sender, EventArgs e) { minimizeBtn.BackColor = Color.FromArgb(255, 64, 64, 64); }
 
         private void addToQueueBtn_Click(object sender, EventArgs e)
         {
-            QueueTextbox.Text += (QueueTextbox.Text!= "")? "\n" + URLTextbox.Text : URLTextbox.Text;
             List<string> lines = new List<string>();
             lines.AddRange(URLTextbox.Text.Split('\n'));
             foreach (var line in lines)
             {
                 int nameEnd = 0;
                 int nameStart = 0;
-                for (int i = 0; i < 6; i++)
+                if (!line.Contains("https://www.webtoons.com/") || !line.Contains("/list?title_no=")) { continue; }
+                try
                 {
-                    nameStart = nameEnd;
-                    while (line[nameEnd] != '/') nameEnd++;
-                    nameEnd++;
+                    for (int i = 0; i < 6; i++)
+                    {
+                        nameStart = nameEnd;
+                        while (line[nameEnd] != '/') nameEnd++;
+                        nameEnd++;
+                    }
                 }
-                QueueGrid.Rows.Add(line.Substring(nameStart, nameEnd-nameStart-1),"#1","(end)");
+                catch { continue; }
+                if (QueueTextbox.Text.Contains($"/{line.Substring(nameStart, nameEnd - nameStart - 1)}/")) { continue; }
+                QueueTextbox.Text += (QueueTextbox.Text == "") ? line: "\n" + line;
+                QueueGrid.Rows.Add(line.Substring(nameStart, nameEnd - nameStart - 1), "#1", "(end)");
             }
             URLTextbox.Text = "";
         }
 
         private void startBtn_Click(object sender, EventArgs e)
         {
+            if (!savepathTB.Text.Contains('\\'))
+            {
+                savepathTB.Text = "please select a directory for saving";
+                return;
+            }
+
+            if (QueueTextbox.Text == "") return;
+
             List<string> lines = new List<string>();
             lines.AddRange(QueueTextbox.Text.Split('\n'));
             List<string> chapterLinks = new List<string>();
@@ -69,7 +89,8 @@ namespace Kea
             List<string[]> ToonChapters = new List<string[]>(), ToonChapterNames = new List<string[]>();
             foreach (string line in lines)  //get all chapter links
             {
-                chapterLinks.RemoveRange(0,chapterLinks.Count);
+                if (line == "") continue;
+                chapterLinks.RemoveRange(0, chapterLinks.Count);
                 int urlEnd = (line.IndexOf('&') == -1) ? line.Length : line.IndexOf('&');
                 using (WebClient client = new WebClient())
                 {
@@ -79,7 +100,7 @@ namespace Kea
                     while (true)
                     {
                         i++;
-                        string html = client.DownloadString(line.Substring(0,urlEnd) + "&page=" + i);
+                        string html = client.DownloadString(line.Substring(0, urlEnd) + "&page=" + i);
                         var doc = new HtmlAgilityPack.HtmlDocument();   //HtmlAgility magic
                         doc.LoadHtml(html);
                         var div = doc.GetElementbyId("_listUl");
@@ -119,7 +140,7 @@ namespace Kea
                 if (cartoonFoldersCB.Checked) { Directory.CreateDirectory(savePath + curName); savePath += curName; }
                 for (int i = 0; i < ToonChapters[t].Length; i++)    //...and for each chapter in that comic...
                 {
-                    processInfo.Text = "grabbing the html of " + ToonChapters[t][i];
+                    processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}";
                     using (WebClient client = new WebClient())
                     {
                         string html = client.DownloadString(ToonChapters[t][i]);
@@ -132,16 +153,11 @@ namespace Kea
                         {
                             if (childNodes[j].NodeType == HtmlNodeType.Element)
                             {
-                                processInfo.Text = "downloading image " + j / 2 + " of chapter " + (i + 1) + "of the comic \"" + curName + "\"!";
+                                processInfo.Text = $"downloading image {j / 2} of chapter {i + 1} of the comic \"{curName}\"!";
                                 client.Headers.Add("Referer", ToonChapters[t][i]);    //refresh the referer for each request!
-                                if (chapterFoldersCB.Checked)
-                                {
-                                    client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), savePath + @"\" + ToonChapterNames[t][i] + @"\image " + j / 2 + ".jpg");
-                                }
-                                else
-                                {
-                                    client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), savePath + @"\image " + j / 2 + ".jpg");
-                                }
+                                string imgName = $"{curName} Ch{i + 1}.{j / 2}";
+                                if (chapterFoldersCB.Checked) { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\{ToonChapterNames[t][i]}\\{imgName}.jpg"); }
+                                else { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\{imgName}.jpg"); }
                                 System.Threading.Thread.Sleep(1000);
                             }
                         }
@@ -153,7 +169,11 @@ namespace Kea
 
         private void cancelBtn_Click(object sender, EventArgs e)    //debugging for now
         {
-
+            for (int i = 0; i < 20; i++)
+            {
+                WindowState = FormWindowState.Minimized;
+                WindowState = FormWindowState.Normal;
+            }
         }
 
         private void selectFolderBtn_Click(object sender, EventArgs e)
@@ -166,6 +186,38 @@ namespace Kea
             if (DialogResult.OK == ofile.ShowDialog())
             {
                 savepathTB.Text = Path.GetDirectoryName(ofile.FileName);
+            }
+        }
+
+        private void PDFcb_Click(object sender, EventArgs e)
+        {
+            Imagescb.Checked = false;
+            PDFcb.Checked = true;
+        }
+
+        private void Imagescb_Click(object sender, EventArgs e)
+        {
+            PDFcb.Checked = false;
+            Imagescb.Checked = true;
+        }
+
+        private void removeAllBtn_Click(object sender, EventArgs e)
+        {
+            QueueTextbox.Text = "";
+            QueueGrid.Rows.Clear();
+        }
+
+        private void removeSelectedBtn_Click(object sender, EventArgs e)
+        {
+            if (QueueGrid.Rows.Count == 0) return;
+            List<string> lines = new List<string>();
+            lines.AddRange(QueueTextbox.Text.Split('\n'));
+            QueueTextbox.Text = "";
+            string name = QueueGrid.SelectedRows[0].Cells[0].Value.ToString();
+            QueueGrid.Rows.RemoveAt(QueueGrid.SelectedRows[0].Index);
+            foreach (var line in lines)
+            {
+                if (!line.Contains($"/{name}/")) { QueueTextbox.Text += line + "\n"; }
             }
         }
     }
