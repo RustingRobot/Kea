@@ -58,6 +58,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.helpBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.HandleBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exitBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QueueGrid)).BeginInit();
@@ -80,7 +81,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label1.Location = new System.Drawing.Point(12, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(106, 15);
@@ -114,7 +115,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label3.Location = new System.Drawing.Point(9, 203);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(43, 15);
@@ -123,10 +124,11 @@
             // 
             // startBtn
             // 
-            this.startBtn.BackColor = System.Drawing.Color.White;
+            this.startBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(165)))), ((int)(((byte)(157)))));
+            this.startBtn.FlatAppearance.BorderSize = 0;
             this.startBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.startBtn.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.startBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.startBtn.Location = new System.Drawing.Point(12, 496);
             this.startBtn.Name = "startBtn";
             this.startBtn.Size = new System.Drawing.Size(520, 26);
@@ -147,10 +149,11 @@
             // 
             // addToQueueBtn
             // 
-            this.addToQueueBtn.BackColor = System.Drawing.Color.White;
+            this.addToQueueBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(165)))), ((int)(((byte)(157)))));
+            this.addToQueueBtn.FlatAppearance.BorderSize = 0;
             this.addToQueueBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.addToQueueBtn.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.addToQueueBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.addToQueueBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.addToQueueBtn.Location = new System.Drawing.Point(12, 164);
             this.addToQueueBtn.Name = "addToQueueBtn";
             this.addToQueueBtn.Size = new System.Drawing.Size(122, 26);
@@ -163,7 +166,7 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label4.Location = new System.Drawing.Point(9, 530);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(130, 15);
@@ -184,6 +187,7 @@
             this.QueueGrid.AllowUserToDeleteRows = false;
             this.QueueGrid.AllowUserToResizeColumns = false;
             this.QueueGrid.AllowUserToResizeRows = false;
+            this.QueueGrid.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(165)))), ((int)(((byte)(157)))));
             this.QueueGrid.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.QueueGrid.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.Disable;
             this.QueueGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -246,6 +250,7 @@
             // selectFolderBtn
             // 
             this.selectFolderBtn.BackColor = System.Drawing.Color.White;
+            this.selectFolderBtn.FlatAppearance.BorderSize = 0;
             this.selectFolderBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.selectFolderBtn.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold);
             this.selectFolderBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
@@ -261,7 +266,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label2.Location = new System.Drawing.Point(9, 430);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(119, 15);
@@ -274,7 +279,7 @@
             this.cartoonFoldersCB.Checked = true;
             this.cartoonFoldersCB.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cartoonFoldersCB.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cartoonFoldersCB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.cartoonFoldersCB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.cartoonFoldersCB.Location = new System.Drawing.Point(154, 429);
             this.cartoonFoldersCB.Name = "cartoonFoldersCB";
             this.cartoonFoldersCB.Size = new System.Drawing.Size(103, 19);
@@ -287,7 +292,7 @@
             this.chapterFoldersCB.AutoSize = true;
             this.chapterFoldersCB.Enabled = false;
             this.chapterFoldersCB.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chapterFoldersCB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.chapterFoldersCB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.chapterFoldersCB.Location = new System.Drawing.Point(280, 426);
             this.chapterFoldersCB.Name = "chapterFoldersCB";
             this.chapterFoldersCB.Size = new System.Drawing.Size(104, 19);
@@ -311,10 +316,11 @@
             // 
             // removeAllBtn
             // 
-            this.removeAllBtn.BackColor = System.Drawing.Color.White;
+            this.removeAllBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(165)))), ((int)(((byte)(157)))));
+            this.removeAllBtn.FlatAppearance.BorderSize = 0;
             this.removeAllBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeAllBtn.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.removeAllBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.removeAllBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.removeAllBtn.Location = new System.Drawing.Point(409, 164);
             this.removeAllBtn.Name = "removeAllBtn";
             this.removeAllBtn.Size = new System.Drawing.Size(123, 26);
@@ -325,10 +331,11 @@
             // 
             // removeSelectedBtn
             // 
-            this.removeSelectedBtn.BackColor = System.Drawing.Color.White;
+            this.removeSelectedBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(165)))), ((int)(((byte)(157)))));
+            this.removeSelectedBtn.FlatAppearance.BorderSize = 0;
             this.removeSelectedBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.removeSelectedBtn.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.removeSelectedBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.removeSelectedBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.removeSelectedBtn.Location = new System.Drawing.Point(280, 164);
             this.removeSelectedBtn.Name = "removeSelectedBtn";
             this.removeSelectedBtn.Size = new System.Drawing.Size(123, 26);
@@ -341,7 +348,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label5.Location = new System.Drawing.Point(9, 455);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(81, 15);
@@ -354,7 +361,7 @@
             this.PDFcb.Checked = true;
             this.PDFcb.CheckState = System.Windows.Forms.CheckState.Checked;
             this.PDFcb.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PDFcb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.PDFcb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.PDFcb.Location = new System.Drawing.Point(154, 454);
             this.PDFcb.Name = "PDFcb";
             this.PDFcb.Size = new System.Drawing.Size(56, 19);
@@ -368,7 +375,7 @@
             // 
             this.Imagescb.AutoSize = true;
             this.Imagescb.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Imagescb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.Imagescb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.Imagescb.Location = new System.Drawing.Point(280, 454);
             this.Imagescb.Name = "Imagescb";
             this.Imagescb.Size = new System.Drawing.Size(69, 19);
@@ -381,7 +388,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label6.Location = new System.Drawing.Point(9, 382);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 15);
@@ -411,12 +418,30 @@
             this.pictureBox1.TabIndex = 28;
             this.pictureBox1.TabStop = false;
             // 
+            // helpBtn
+            // 
+            this.helpBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(193)))), ((int)(((byte)(185)))));
+            this.helpBtn.Cursor = System.Windows.Forms.Cursors.Default;
+            this.helpBtn.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
+            this.helpBtn.FlatAppearance.BorderSize = 0;
+            this.helpBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.helpBtn.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.helpBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
+            this.helpBtn.Location = new System.Drawing.Point(377, 36);
+            this.helpBtn.Name = "helpBtn";
+            this.helpBtn.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.helpBtn.Size = new System.Drawing.Size(155, 26);
+            this.helpBtn.TabIndex = 29;
+            this.helpBtn.Text = "help, how do I use this ?";
+            this.helpBtn.UseVisualStyleBackColor = false;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Silver;
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(193)))), ((int)(((byte)(185)))));
             this.ClientSize = new System.Drawing.Size(544, 574);
+            this.Controls.Add(this.helpBtn);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
@@ -488,6 +513,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.Button helpBtn;
     }
 }
 
