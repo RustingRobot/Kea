@@ -1,16 +1,16 @@
 ﻿using HtmlAgilityPack;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Image = iTextSharp.text.Image;
+using Rectangle = iTextSharp.text.Rectangle;
 
 namespace Kea
 {
@@ -18,7 +18,7 @@ namespace Kea
     {
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
-
+        public float absoluteChapterNR;
         public List<string> chapterLinks, chapterNames;
         public List<string[]> ToonChapters, ToonChapterNames;
 
@@ -43,12 +43,12 @@ namespace Kea
         }
 
         private void exitBtn_Click(object sender, EventArgs e) { Application.Exit(); } //c'mon man, isn't this obvious
-        private void exitBtn_MouseEnter(object sender, EventArgs e) { exitBtn.BackColor = Color.FromArgb(255, 38, 38, 38); }
-        private void exitBtn_MouseLeave(object sender, EventArgs e) { exitBtn.BackColor = Color.FromArgb(255, 64, 64, 64); }
+        private void exitBtn_MouseEnter(object sender, EventArgs e) { exitBtn.BackColor = Color.FromArgb(255, 20, 70, 34); }
+        private void exitBtn_MouseLeave(object sender, EventArgs e) { exitBtn.BackColor = Color.FromArgb(255, 0, 30, 14); }
 
         private void minimizeBtn_Click(object sender, EventArgs e) { WindowState = FormWindowState.Minimized; } //c'mon man, isn't this obvious
-        private void minimizeBtn_MouseEnter(object sender, EventArgs e) { minimizeBtn.BackColor = Color.FromArgb(255, 38, 38, 38); }
-        private void minimizeBtn_MouseLeave(object sender, EventArgs e) { minimizeBtn.BackColor = Color.FromArgb(255, 64, 64, 64); }
+        private void minimizeBtn_MouseEnter(object sender, EventArgs e) { minimizeBtn.BackColor = Color.FromArgb(255, 20, 70, 34); }
+        private void minimizeBtn_MouseLeave(object sender, EventArgs e) { minimizeBtn.BackColor = Color.FromArgb(255, 0, 30, 14); }
 
         private void addToQueueBtn_Click(object sender, EventArgs e)
         {
@@ -78,11 +78,18 @@ namespace Kea
 
         private async void startBtn_Click(object sender, EventArgs e)
         {
+            DisableAllControls(this);
+            EnableControls(HandleBar);
+            EnableControls(exitBtn);
+            EnableControls(minimizeBtn);
             await DownloadQueueAsync();
+            EnableAllControls(this);
+            if(PDFcb.Checked) chapterFoldersCB.Enabled = false;
         }
 
         private async Task DownloadQueueAsync()
         {
+            absoluteChapterNR = 0;
             chapterLinks = new List<string>();
             chapterNames = new List<string>();
             ToonChapters = new List<string[]>();
@@ -99,16 +106,17 @@ namespace Kea
             lines.AddRange(QueueTextbox.Text.Split('\n'));
             foreach (string line in lines)  //get all chapter links
             {
-                await Task.Run(() => GetChapter(line));
+                await Task.Run(() => GetChapterAsync(line));
             }
             for (int t = 0; t < ToonChapters.Count; t++)    //for each comic in queue...
             {
                 await Task.Run(() => downloadComic(t));
             }
             processInfo.Text = "done!";
+            progressBar.Value = 0;
         }
 
-        private void GetChapter(string line)
+        private async Task GetChapterAsync(string line)
         {
             if (line == "") return;
             chapterLinks.RemoveRange(0, chapterLinks.Count);
@@ -121,7 +129,7 @@ namespace Kea
                 while (true)
                 {
                     i++;
-                    string html = client.DownloadString(line.Substring(0, urlEnd) + "&page=" + i);
+                    string html = await client.DownloadStringTaskAsync(line.Substring(0, urlEnd) + "&page=" + i);
                     var doc = new HtmlAgilityPack.HtmlDocument();   //HtmlAgility magic
                     doc.LoadHtml(html);
                     var div = doc.GetElementbyId("_listUl");
@@ -137,7 +145,7 @@ namespace Kea
                                 checkedForLink = true;
                             }
                             else if (!checkedForLink) { foundEnd = true; break; }
-                            chapterLinks.Add(childNodes[j].ChildNodes[1].Attributes["href"].Value); //lunk of the chapter
+                            chapterLinks.Add(childNodes[j].ChildNodes[1].Attributes["href"].Value); //link of the chapter
                             chapterNames.Add(childNodes[j].ChildNodes[1].ChildNodes[3].ChildNodes[0].InnerHtml); //name of the chapter
                         }
                     }
@@ -145,6 +153,7 @@ namespace Kea
                 }
             }
             chapterLinks.Reverse();
+            absoluteChapterNR += chapterLinks.Count;
             // add all chapter links and the chapter names of the just scrapped site to the full list of the comic
             string[] tempChapterLinks = new string[chapterLinks.Count];
             for (int i = 0; i < chapterLinks.Count; i++) tempChapterLinks[i] = chapterLinks[i];
@@ -162,7 +171,7 @@ namespace Kea
             if (cartoonFoldersCB.Checked) { Directory.CreateDirectory(savePath + curName); savePath += curName; }
             for (int i = 0; i < ToonChapters[t].Length; i++)    //...and for each chapter in that comic...
             {
-                processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}";
+                processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}"; progressBar.Value = (int)((i + 1) / absoluteChapterNR * 100); Console.WriteLine(progressBar.Value + "   " + i / absoluteChapterNR); }); //run on the UI thread
                 using (WebClient client = new WebClient())
                 {
                     string html = client.DownloadString(ToonChapters[t][i]);
@@ -170,29 +179,40 @@ namespace Kea
                     doc.LoadHtml(html);
                     var div = doc.GetElementbyId("_imageList");
                     HtmlNodeCollection childNodes = div.ChildNodes;
-                    if (chapterFoldersCB.Checked) { Directory.CreateDirectory(savePath + @"\" + ToonChapterNames[t][i]); }
+                    if (chapterFoldersCB.Checked || PDFcb.Checked) { Directory.CreateDirectory(savePath + @"\" + $"({i+1}) {ToonChapterNames[t][i]}"); }
                     for (int j = 0; j < childNodes.Count; j++)  //...download all images!
                     {
                         if (childNodes[j].NodeType == HtmlNodeType.Element)
                         {
-                            processInfo.Text = $"downloading image {j / 2} of chapter {i + 1} of the comic \"{curName}\"!";
+                            processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"downloading image {j / 2} of chapter {i + 1} of the comic \"{curName}\"!"; }); //run on the UI thread
                             client.Headers.Add("Referer", ToonChapters[t][i]);    //refresh the referer for each request!
                             string imgName = $"{curName} Ch{i + 1}.{j / 2}";
-                            if (chapterFoldersCB.Checked) { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\{ToonChapterNames[t][i]}\\{imgName}.jpg"); }
+                            if (chapterFoldersCB.Checked || PDFcb.Checked) { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\({i+1}) {ToonChapterNames[t][i]}\\{imgName}.jpg"); }
                             else { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\{imgName}.jpg"); }
-                            System.Threading.Thread.Sleep(1000);
                         }
                     }
                 }
-            }
-        }
-
-        private void cancelBtn_Click(object sender, EventArgs e)    //debugging for now
-        {
-            for (int i = 0; i < 20; i++)
-            {
-                WindowState = FormWindowState.Minimized;
-                WindowState = FormWindowState.Normal;
+                if (PDFcb.Checked)
+                {
+                    string[] files = Directory.GetFiles($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", "*.jpg", SearchOption.TopDirectoryOnly);
+                    Document doc = new Document();
+                    try
+                    {
+                        PdfWriter.GetInstance(doc, new FileStream($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.pdf", FileMode.Create));
+                        doc.Open();
+                        for (int j = 0; j < files.Length; j++)
+                        {
+                            Image img = Image.GetInstance(files[j]);
+                            img.SetAbsolutePosition(0, 0);
+                            doc.SetPageSize(new Rectangle(img.Width, img.Height));
+                            doc.NewPage();
+                            doc.Add(img);
+                        }
+                    }
+                    catch { Console.WriteLine("rip"); }
+                    finally { doc.Close(); }
+                    Directory.Delete($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", true);
+                }
             }
         }
 
@@ -238,6 +258,39 @@ namespace Kea
             foreach (var line in lines)
             {
                 if (!line.Contains($"/{name}/")) { QueueTextbox.Text += line + "\n"; }
+            }
+        }
+
+        private void DisableAllControls(Control con)
+        {
+            foreach (Control c in con.Controls)
+            {
+                DisableAllControls(c);
+            }
+            con.Enabled = false;
+        }
+
+        private void PDFcb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (PDFcb.Checked == true) { chapterFoldersCB.Checked = false; chapterFoldersCB.Enabled = false; }
+            else { chapterFoldersCB.Enabled = true; chapterFoldersCB.Checked = true; }
+        }
+
+        private void EnableAllControls(Control con)
+        {
+            foreach (Control c in con.Controls)
+            {
+                EnableAllControls(c);
+            }
+            con.Enabled = true;
+        }
+
+        private void EnableControls(Control con)
+        {
+            if (con != null)
+            {
+                con.Enabled = true;
+                EnableControls(con.Parent);
             }
         }
     }
