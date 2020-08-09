@@ -19,7 +19,7 @@ To edit Kea, download everything and open ***Kea.sln*** in Visual Studio.
 5. Check ***each catoon*** for the application to save all chapters of a cartoon under a common folder (***each chapter*** works likewise)  
 6. The images of a chapter can either be saved as a single PDF document or multible images (.jpg)  
 	(since all images already get bundled together if a PDF is created, the option ***each chapter*** is deactivated)  
-7. Now you can click the * **start** * button and wait (all controls should be deactivated until the download is done)  
+7. Now you can click the ***start*** button and wait (all controls should be deactivated until the download is done)  
 ## Contact me
 my discord tag is: Rusting Robot#7758  
 or write me an email: rusting.robot.scratch@gmail.com 
