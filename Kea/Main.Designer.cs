@@ -434,6 +434,7 @@
             this.helpBtn.TabIndex = 29;
             this.helpBtn.Text = "help, how do I use this ?";
             this.helpBtn.UseVisualStyleBackColor = false;
+            this.helpBtn.Click += new System.EventHandler(this.helpBtn_Click);
             // 
             // Main
             // 

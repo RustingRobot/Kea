@@ -72,6 +72,7 @@ namespace Kea
                 int nameEnd = 0;
                 int nameStart = 0;
                 if (!line.Contains("https://www.webtoons.com/") || !line.Contains("/list?title_no=")) { continue; }
+                if (line.Length - line.Replace("/", "").Length != 6) { continue; }
                 try
                 {
                     for (int i = 0; i < 6; i++)
@@ -287,6 +288,11 @@ namespace Kea
         {
             if (PDFcb.Checked == true) { chapterFoldersCB.Checked = false; chapterFoldersCB.Enabled = false; }
             else { chapterFoldersCB.Enabled = true; chapterFoldersCB.Checked = true; }
+        }
+
+        private void helpBtn_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/RustingRobot/Kea#how-to-use");
         }
 
         private void EnableAllControls(Control con)
