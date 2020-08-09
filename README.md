@@ -1,6 +1,5 @@
-## Kea - a webtoons downloader 
+## Kea - a webtoons downloader<img align="right" src="https://user-images.githubusercontent.com/50629201/89736764-12812c80-da6c-11ea-881f-4027922270e6.png" alt="drawing" width="200"/>  
 ###### *with GUI and everything!*  
-<img src="https://user-images.githubusercontent.com/50629201/89736764-12812c80-da6c-11ea-881f-4027922270e6.png" alt="drawing" width="200"/>
 Kea is an appication for downloading comics from https://www.webtoons.com for personal, offline use.
 
 ------------
