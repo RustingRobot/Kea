@@ -72,7 +72,7 @@ namespace Kea
             {
                 int nameEnd = 0;
                 int nameStart = 0;
-                if (!line.Contains("https://www.webtoons.com/") || !line.Contains("/list?title_no=")) { continue; }
+                if (!line.Contains("https://www.webtoons.com/") || !line.Contains("/list?title_no=")) { continue; } //doesn't support m.webtoons.com bc it would result in a 400 bad request and i'm too lazy to replace the m with www manually
                 if (line.Length - line.Replace("/", "").Length != 6) { continue; }
                 try
                 {
