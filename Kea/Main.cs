@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Image = iTextSharp.text.Image;
@@ -206,9 +207,11 @@ namespace Kea
                         }
                     }
                 }
-                if (PDFcb.Checked)
+                if (PDFcb.Checked)  //bundle images into PDF
                 {
-                    string[] files = Directory.GetFiles($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", "*.jpg", SearchOption.TopDirectoryOnly);
+                    DirectoryInfo di = new DirectoryInfo($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}");
+                    FileInfo[] fileInfos = di.GetFiles("*.jpg").OrderBy(fi => fi.CreationTime).ToArray();
+                    string[] files = fileInfos.Select(o => o.FullName).ToArray();
                     Document doc = new Document();
                     try
                     {
