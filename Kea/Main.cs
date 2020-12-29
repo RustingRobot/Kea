@@ -175,7 +175,16 @@ namespace Kea
             ToonChapters.Add(tempChapterLinks);
             chapterNames.Reverse();
             string[] tempChapterNames = new string[chapterNames.Count];
-            for (int i = 0; i < chapterNames.Count; i++) tempChapterNames[i] = chapterNames[i];
+            //sanitize the names of chapters!
+            string invalidChars = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
+            for (int i = 0; i < chapterNames.Count; i++)
+            {
+                foreach (char c in invalidChars)
+                {
+                    chapterNames[i] = chapterNames[i].Replace(c.ToString(), "");
+                }
+                tempChapterNames[i] = chapterNames[i];
+            }
             ToonChapterNames.Add(tempChapterNames);
         }
 
