@@ -2,9 +2,10 @@
 ###### *with GUI and everything!*  
 Kea is an appication for downloading comics from https://www.webtoons.com for personal, offline use.
 ## How To: Download
-The compiled version of Kea is in the ***Kea - compiled*** folder. 
-Only download that folder, open it and execute ***Kea.exe***.  
-*(all files in the Kea - compiled folder need to stay in the same directory)*
+You can find the latest release on the right under the "About" section in the "Releases" tab.  
+Click on it and then click on the .zip file that isn't named "Source code".  
+After the .zip folder downloaded unzip it and run Kea.exe.  
+*(all files in the Kea folder need to stay in the same directory)*
 
 To edit Kea, download everything and open ***Kea.sln*** in Visual Studio.
 ## How To: Use
