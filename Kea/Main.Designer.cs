@@ -216,7 +216,6 @@
             // 
             this.Column2.HeaderText = "start at chapter";
             this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
             this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column2.Width = 159;
             // 
@@ -224,7 +223,6 @@
             // 
             this.Column3.HeaderText = "End at chapter";
             this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
             this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column3.Width = 160;
             // 
@@ -496,9 +494,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox processInfo;
         private System.Windows.Forms.DataGridView QueueGrid;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.RichTextBox QueueTextbox;
         private System.Windows.Forms.TextBox savepathTB;
         private System.Windows.Forms.Button selectFolderBtn;
@@ -515,6 +510,9 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button helpBtn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
     }
 }
 

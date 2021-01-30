@@ -86,13 +86,34 @@ namespace Kea
                 catch { continue; }
                 if (QueueTextbox.Text.Contains($"/{line.Substring(nameStart, nameEnd - nameStart - 1)}/")) { continue; }
                 QueueTextbox.Text += (QueueTextbox.Text == "") ? line: "\n" + line;
-                QueueGrid.Rows.Add(line.Substring(nameStart, nameEnd - nameStart - 1), "#1", "(end)");
+                QueueGrid.Rows.Add(line.Substring(nameStart, nameEnd - nameStart - 1), "1", "end");
             }
             URLTextbox.Text = "";
         }
 
         private async void startBtn_Click(object sender, EventArgs e)
         {
+            foreach (DataGridViewRow r in QueueGrid.Rows)
+            {
+                int end = 0, start = 0;
+                try
+                {
+                    start = int.Parse(r.Cells[1].Value.ToString());
+                    if(start < 1) { MessageBox.Show("The start chapter must be greater than zero!"); return; }
+                }
+                catch { MessageBox.Show("The start chapter must be a number!"); return; }
+
+                try 
+                { 
+                    end = int.Parse(r.Cells[2].Value.ToString());
+                    if (end < 1) { MessageBox.Show("The end chapter must be greater than zero!"); return; }
+                }
+                catch
+                {
+                    if(r.Cells[2].Value.ToString() != "end") { MessageBox.Show("The end chapter must be a number or the word 'end'!"); return; }
+                }
+                if(end != 0 && end < start) { MessageBox.Show("The start chapter must smaller than the end chapter!"); return; }
+            }
             DisableAllControls(this);
             EnableControls(HandleBar);
             EnableControls(exitBtn);
@@ -104,20 +125,19 @@ namespace Kea
 
         private async Task DownloadQueueAsync()
         {
-            absoluteChapterNR = 0;
-            chapterLinks = new List<string>();
-            chapterNames = new List<string>();
-            ToonChapters = new List<string[]>();
-            ToonChapterNames = new List<string[]>();
             if (!savepathTB.Text.Contains('\\'))
             {
                 savepathTB.Text = "please select a directory for saving";
                 return;
             }
-
             if (QueueTextbox.Text == "") return;
-
+            absoluteChapterNR = 0;
+            chapterLinks = new List<string>();
+            chapterNames = new List<string>();
+            ToonChapters = new List<string[]>();
+            ToonChapterNames = new List<string[]>();
             List<string> lines = new List<string>();
+
             lines.AddRange(QueueTextbox.Text.Split('\n'));
             foreach (string line in lines)  //get all chapter links
             {
@@ -144,6 +164,7 @@ namespace Kea
                 while (true)
                 {
                     i++;
+                    processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"scoping tab {i}"; }); //run on the UI thread
                     string html = await client.DownloadStringTaskAsync(line.Substring(0, urlEnd) + "&page=" + i);
                     var doc = new HtmlAgilityPack.HtmlDocument();   //HtmlAgility magic
                     doc.LoadHtml(html);
@@ -193,9 +214,14 @@ namespace Kea
             string savePath = savepathTB.Text + @"\";
             string curName = QueueGrid.Rows[t].Cells[0].Value.ToString();
             if (cartoonFoldersCB.Checked) { Directory.CreateDirectory(savePath + curName); savePath += curName; }
-            for (int i = 0; i < ToonChapters[t].Length; i++)    //...and for each chapter in that comic...
+
+            //set start and end chapter
+            float startNr = int.Parse(QueueGrid.Rows[t].Cells[1].Value.ToString()) - 1;
+            float endNr = (QueueGrid.Rows[t].Cells[2].Value.ToString() == "end") ? ToonChapters[t].Length : int.Parse(QueueGrid.Rows[t].Cells[2].Value.ToString());
+            if (endNr > ToonChapters[t].Length) endNr = ToonChapters[t].Length;
+            for (int i = (int)startNr; i < endNr; i++)    //...and for each chapter in that comic...
             {
-                processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}"; progressBar.Value = (int)((i + 1) / absoluteChapterNR * 100); Console.WriteLine(progressBar.Value + "   " + i / absoluteChapterNR); }); //run on the UI thread
+                processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}"; progressBar.Value = (int)((i - startNr)+1 / (endNr - startNr) * 100); Console.WriteLine((i-startNr)); }); //run on the UI thread
                 using (WebClient client = new WebClient())
                 {
                     string html = client.DownloadString(ToonChapters[t][i]);
