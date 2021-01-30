@@ -18,7 +18,7 @@ To edit Kea, download everything and open ***Kea.sln*** in Visual Studio.
 <!-- end of the list -->
 ![startEndChapter](https://user-images.githubusercontent.com/50629201/106370729-322f4880-635d-11eb-8dc9-d3e4b274e083.gif)
 * The default start chapter will always be 1 and the default end chapter 'end'
-* These can be changed to any number greater than zero
+* These can be changed to any number greater than zero  
 	(the start chapter needs to be smaller than the end chapter)
 <!-- end of the list -->
 ![Annotation 2020-08-09 171732](https://user-images.githubusercontent.com/50629201/89736045-034bb000-da67-11ea-825b-44e8ee6f67b5.png)  
