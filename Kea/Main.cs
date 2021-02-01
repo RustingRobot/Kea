@@ -221,7 +221,7 @@ namespace Kea
             if (endNr > ToonChapters[t].Length) endNr = ToonChapters[t].Length;
             for (int i = (int)startNr; i < endNr; i++)    //...and for each chapter in that comic...
             {
-                processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}"; progressBar.Value = (int)((i - startNr)+1 / (endNr - startNr) * 100); Console.WriteLine((i-startNr)); }); //run on the UI thread
+                processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}"; try { progressBar.Value = (int)((i - startNr) + 1 / (endNr - startNr) * 100); } catch { } }); //run on the UI thread
                 using (WebClient client = new WebClient())
                 {
                     string html = client.DownloadString(ToonChapters[t][i]);
