@@ -3,6 +3,7 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -165,6 +166,7 @@ namespace Kea
                 {
                     i++;
                     processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"scoping tab {i}"; }); //run on the UI thread
+                    client.Headers.Add("Cookie", "pagGDPR=true;");  //add cookies to bypass age verification
                     string html = await client.DownloadStringTaskAsync(line.Substring(0, urlEnd) + "&page=" + i);
                     var doc = new HtmlAgilityPack.HtmlDocument();   //HtmlAgility magic
                     doc.LoadHtml(html);
@@ -219,11 +221,17 @@ namespace Kea
             float startNr = int.Parse(QueueGrid.Rows[t].Cells[1].Value.ToString()) - 1;
             float endNr = (QueueGrid.Rows[t].Cells[2].Value.ToString() == "end") ? ToonChapters[t].Length : int.Parse(QueueGrid.Rows[t].Cells[2].Value.ToString());
             if (endNr > ToonChapters[t].Length) endNr = ToonChapters[t].Length;
+            processInfo.Invoke((MethodInvoker)delegate
+            {
+                progressBar.Minimum = (int)startNr;
+                progressBar.Maximum = (int)endNr * 100;
+            });
             for (int i = (int)startNr; i < endNr; i++)    //...and for each chapter in that comic...
             {
-                processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}"; try { progressBar.Value = (int)((i - startNr) + 1 / (endNr - startNr) * 100); } catch { } }); //run on the UI thread
+                processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}"; try { progressBar.Value = i * 100; } catch { } }); //run on the UI thread
                 using (WebClient client = new WebClient())
                 {
+                    client.Headers.Add("Cookie", "pagGDPR=true;");  //add cookies to bypass age verification
                     string html = client.DownloadString(ToonChapters[t][i]);
                     var doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
@@ -239,6 +247,7 @@ namespace Kea
                             string imgName = $"{curName} Ch{i + 1}.{j / 2}";
                             if (chapterFoldersCB.Checked || PDFcb.Checked) { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\({i+1}) {ToonChapterNames[t][i]}\\{imgName}.jpg"); }
                             else { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\{imgName}.jpg"); }
+                            processInfo.Invoke((MethodInvoker)delegate { try { progressBar.Value = i * 100 + (int)(j / (float)childNodes.Count * 100); } catch { } });
                         }
                     }
                 }
