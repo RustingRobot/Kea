@@ -149,7 +149,7 @@ namespace Kea
                 await Task.Run(() => downloadComic(t));
             }
             processInfo.Text = "done!";
-            progressBar.Value = 0;
+            progressBar.Value = progressBar.Minimum;
         }
 
         private async Task GetChapterAsync(string line)
@@ -223,7 +223,7 @@ namespace Kea
             if (endNr > ToonChapters[t].Length) endNr = ToonChapters[t].Length;
             processInfo.Invoke((MethodInvoker)delegate
             {
-                progressBar.Minimum = (int)startNr;
+                progressBar.Minimum = (int)startNr * 100;
                 progressBar.Maximum = (int)endNr * 100;
             });
             for (int i = (int)startNr; i < endNr; i++)    //...and for each chapter in that comic...
