@@ -2,8 +2,8 @@
 ###### *with GUI and everything!*  
 Kea is an appication for downloading comics from https://www.webtoons.com for personal, offline use.
 ## How To: Download
-You can find the latest release on the right under the "About" section in the "Releases" tab.  
-Click on it and then click on the .zip file that isn't named "Source code".  
+Download [Kea v.1.3.3](https://github.com/RustingRobot/Kea/releases/download/v1.3.3/Kea.v1.3.3.zip)
+or look at all releases [here](https://github.com/RustingRobot/Kea/releases).  
 After the .zip folder downloaded unzip it and run Kea.exe.  
 *(all files in the Kea folder need to stay in the same directory)*
 
@@ -21,11 +21,12 @@ To edit Kea, download everything and open ***Kea.sln*** in Visual Studio.
 * These can be changed to any number greater than zero  
 	(the start chapter needs to be smaller than the end chapter)
 <!-- end of the list -->
-![Annotation 2020-08-09 171732](https://user-images.githubusercontent.com/50629201/89736045-034bb000-da67-11ea-825b-44e8ee6f67b5.png)  
+![Annotation 2020-08-09 171732](https://user-images.githubusercontent.com/50629201/116462654-fa577480-a869-11eb-9895-36c25b2774af.png)  
 * Select a save folder by pressing the ***folder*** button  
 * Check ***each catoon*** for the application to save all chapters of a cartoon under a common folder (***each chapter*** works likewise)  
-* The images of a chapter can either be saved as a single PDF document or multible images (.jpg)  
-	(since all images already get bundled together if a PDF is created, the option ***each chapter*** is deactivated)  
+* The images of a chapter can either be saved as a single PDF document, multible images (.jpg) or one long image (.png)
+	(since all images already get bundled together if a PDF or one long image is created, the option ***each chapter*** is deactivated)  
+* Warning: if a chapter is so long that the resulting merged image exceeds 30,000 pixels in height it will be down scaled (in some cases even until the text isn't readable anymore). In those cases the PDF option may be better.  
 * Now you can click the ***start*** button and wait (all controls should be deactivated until the download is done)  
 ## Contact me
 my discord tag is: Rusting Robot#7758  
