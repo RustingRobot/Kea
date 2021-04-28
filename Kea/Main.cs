@@ -161,6 +161,8 @@ namespace Kea
                     i++;
                     processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"scoping tab {i}"; }); //run on the UI thread
                     client.Headers.Add("Cookie", "pagGDPR=true;");  //add cookies to bypass age verification
+                    WebProxy proxy = WebProxy.GetDefaultProxy();    //add default proxy
+                    client.Proxy = proxy;
                     string html = await client.DownloadStringTaskAsync(line.Substring(0, urlEnd) + "&page=" + i);
                     var doc = new HtmlAgilityPack.HtmlDocument();   //HtmlAgility magic
                     doc.LoadHtml(html);
@@ -226,6 +228,8 @@ namespace Kea
                 using (WebClient client = new WebClient())
                 {
                     client.Headers.Add("Cookie", "pagGDPR=true;");  //add cookies to bypass age verification
+                    WebProxy proxy = WebProxy.GetDefaultProxy();    //add default proxy
+                    client.Proxy = proxy;
                     string html = client.DownloadString(ToonChapters[t][i]);
                     var doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
