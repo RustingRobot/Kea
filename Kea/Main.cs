@@ -5,10 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Image = iTextSharp.text.Image;
@@ -56,14 +57,6 @@ namespace Kea
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
-
-        private void exitBtn_Click(object sender, EventArgs e) { Application.Exit(); } //c'mon man, isn't this obvious
-        private void exitBtn_MouseEnter(object sender, EventArgs e) { exitBtn.BackColor = Color.FromArgb(255, 20, 70, 34); }
-        private void exitBtn_MouseLeave(object sender, EventArgs e) { exitBtn.BackColor = Color.FromArgb(255, 0, 30, 14); }
-
-        private void minimizeBtn_Click(object sender, EventArgs e) { WindowState = FormWindowState.Minimized; } //c'mon man, isn't this obvious
-        private void minimizeBtn_MouseEnter(object sender, EventArgs e) { minimizeBtn.BackColor = Color.FromArgb(255, 20, 70, 34); }
-        private void minimizeBtn_MouseLeave(object sender, EventArgs e) { minimizeBtn.BackColor = Color.FromArgb(255, 0, 30, 14); }
 
         private void addToQueueBtn_Click(object sender, EventArgs e)
         {
@@ -237,7 +230,7 @@ namespace Kea
                     doc.LoadHtml(html);
                     var div = doc.GetElementbyId("_imageList");
                     HtmlNodeCollection childNodes = div.ChildNodes;
-                    if (chapterFoldersCB.Checked || PDFcb.Checked) { Directory.CreateDirectory(savePath + @"\" + $"({i+1}) {ToonChapterNames[t][i]}"); }
+                    if (chapterFoldersCB.Checked || PDFcb.Checked || oneImagecb.Checked) { Directory.CreateDirectory(savePath + @"\" + $"({i+1}) {ToonChapterNames[t][i]}"); }
                     for (int j = 0; j < childNodes.Count; j++)  //...download all images!
                     {
                         if (childNodes[j].NodeType == HtmlNodeType.Element)
@@ -245,7 +238,7 @@ namespace Kea
                             processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"downloading image {j / 2} of chapter {i + 1} of the comic \"{curName}\"!"; }); //run on the UI thread
                             client.Headers.Add("Referer", ToonChapters[t][i]);    //refresh the referer for each request!
                             string imgName = $"{curName} Ch{i + 1}.{j / 2}";
-                            if (chapterFoldersCB.Checked || PDFcb.Checked) { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\({i+1}) {ToonChapterNames[t][i]}\\{imgName}.jpg"); }
+                            if (chapterFoldersCB.Checked || PDFcb.Checked || oneImagecb.Checked) { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\({i+1}) {ToonChapterNames[t][i]}\\{imgName}.jpg"); }
                             else { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\{imgName}.jpg"); }
                             processInfo.Invoke((MethodInvoker)delegate { try { progressBar.Value = i * 100 + (int)(j / (float)childNodes.Count * 100); } catch { } });
                         }
@@ -274,8 +267,80 @@ namespace Kea
                     finally { doc.Close(); }
                     Directory.Delete($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", true);
                 }
+                else if(oneImagecb.Checked) //bundle images into one long image
+                {
+                    DirectoryInfo di = new DirectoryInfo($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}");
+                    FileInfo[] fileInfos = di.GetFiles("*.jpg").OrderBy(fi => fi.CreationTime).ToArray();
+                    string[] files = fileInfos.Select(o => o.FullName).ToArray();
+                    
+                    Bitmap[] images = new Bitmap[files.Length];
+                    int finalHeight = 0;
+                    for (int j = 0; j < images.Length; j++)
+                    {
+                        images[j] = new Bitmap(files[j]);
+                        finalHeight += images[j].Height;
+                    }
+
+                    using (var bm = new Bitmap(images[0].Width, finalHeight))
+                    {
+                        int pointerHeight = 0;
+                        using (Graphics g = Graphics.FromImage(bm))
+                        {
+                            for (int k = 0; k < images.Length; k++)
+                            {
+                                g.DrawImage(images[k], 0, pointerHeight);
+                                pointerHeight += images[k].Height;
+                            }
+                        }
+                        if (true || finalHeight > 30000)
+                        {
+                            Bitmap resizedImage = ResizeImage(bm, (int)(images[0].Width * (1.0 - (float)(finalHeight - 30000) / finalHeight)), 30000);
+                            resizedImage.Save($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.png");
+                        }
+                        ////else bm.Save($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.png");
+                    }
+                    foreach (var image in images)
+                    {
+                        image.Dispose();
+                    }
+                    Directory.Delete($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", true);
+                }
             }
         }
+
+        public static Bitmap ResizeImage(System.Drawing.Image image, int width, int height)
+        {
+            var destRect = new System.Drawing.Rectangle(0, 0, width, height);
+            var destImage = new Bitmap(width, height);
+
+            destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
+
+            using (var graphics = Graphics.FromImage(destImage))
+            {
+                graphics.CompositingMode = CompositingMode.SourceCopy;
+                graphics.CompositingQuality = CompositingQuality.HighQuality;
+                graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                graphics.SmoothingMode = SmoothingMode.HighQuality;
+                graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+                using (var wrapMode = new ImageAttributes())
+                {
+                    wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+                    graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+                }
+            }
+
+            return destImage;
+        }
+
+        #region visuals
+        private void exitBtn_Click(object sender, EventArgs e) { Application.Exit(); } //c'mon man, isn't this obvious
+        private void exitBtn_MouseEnter(object sender, EventArgs e) { exitBtn.BackColor = Color.FromArgb(255, 20, 70, 34); }
+        private void exitBtn_MouseLeave(object sender, EventArgs e) { exitBtn.BackColor = Color.FromArgb(255, 0, 30, 14); }
+
+        private void minimizeBtn_Click(object sender, EventArgs e) { WindowState = FormWindowState.Minimized; } //c'mon man, isn't this obvious
+        private void minimizeBtn_MouseEnter(object sender, EventArgs e) { minimizeBtn.BackColor = Color.FromArgb(255, 20, 70, 34); }
+        private void minimizeBtn_MouseLeave(object sender, EventArgs e) { minimizeBtn.BackColor = Color.FromArgb(255, 0, 30, 14); }
 
         private void selectFolderBtn_Click(object sender, EventArgs e)
         {
@@ -294,13 +359,24 @@ namespace Kea
         {
             Imagescb.Checked = false;
             PDFcb.Checked = true;
+            oneImagecb.Checked = false;
         }
 
         private void Imagescb_Click(object sender, EventArgs e)
         {
             PDFcb.Checked = false;
             Imagescb.Checked = true;
+            oneImagecb.Checked = false;
+            chapterFoldersCB.Enabled = true; chapterFoldersCB.Checked = true;
         }
+
+        private void oneImagecb_Click(object sender, EventArgs e)
+        {
+            PDFcb.Checked = false;
+            Imagescb.Checked = false;
+            oneImagecb.Checked = true;
+        }
+
 
         private void removeAllBtn_Click(object sender, EventArgs e)
         {
@@ -334,7 +410,11 @@ namespace Kea
         private void PDFcb_CheckedChanged(object sender, EventArgs e)
         {
             if (PDFcb.Checked == true) { chapterFoldersCB.Checked = false; chapterFoldersCB.Enabled = false; }
-            else { chapterFoldersCB.Enabled = true; chapterFoldersCB.Checked = true; }
+        }
+
+        private void oneImagecb_CheckedChanged(object sender, EventArgs e)
+        {
+            if (oneImagecb.Checked) { chapterFoldersCB.Checked = false; chapterFoldersCB.Enabled = false; }
         }
 
         private void helpBtn_Click(object sender, EventArgs e)
@@ -359,5 +439,6 @@ namespace Kea
                 EnableControls(con.Parent);
             }
         }
+        #endregion
     }
 }

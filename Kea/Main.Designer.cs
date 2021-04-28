@@ -59,6 +59,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.helpBtn = new System.Windows.Forms.Button();
+            this.oneImagecb = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.HandleBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exitBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QueueGrid)).BeginInit();
@@ -349,9 +350,9 @@
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label5.Location = new System.Drawing.Point(9, 455);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(81, 15);
+            this.label5.Size = new System.Drawing.Size(110, 15);
             this.label5.TabIndex = 23;
-            this.label5.Text = "save files as:";
+            this.label5.Text = "save chapters as:";
             // 
             // PDFcb
             // 
@@ -374,7 +375,7 @@
             this.Imagescb.AutoSize = true;
             this.Imagescb.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Imagescb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
-            this.Imagescb.Location = new System.Drawing.Point(280, 454);
+            this.Imagescb.Location = new System.Drawing.Point(404, 455);
             this.Imagescb.Name = "Imagescb";
             this.Imagescb.Size = new System.Drawing.Size(69, 19);
             this.Imagescb.TabIndex = 25;
@@ -434,12 +435,27 @@
             this.helpBtn.UseVisualStyleBackColor = false;
             this.helpBtn.Click += new System.EventHandler(this.helpBtn_Click);
             // 
+            // oneImagecb
+            // 
+            this.oneImagecb.AutoSize = true;
+            this.oneImagecb.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.oneImagecb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
+            this.oneImagecb.Location = new System.Drawing.Point(280, 455);
+            this.oneImagecb.Name = "oneImagecb";
+            this.oneImagecb.Size = new System.Drawing.Size(87, 19);
+            this.oneImagecb.TabIndex = 30;
+            this.oneImagecb.Text = "one image";
+            this.oneImagecb.UseVisualStyleBackColor = true;
+            this.oneImagecb.CheckedChanged += new System.EventHandler(this.oneImagecb_CheckedChanged);
+            this.oneImagecb.Click += new System.EventHandler(this.oneImagecb_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(193)))), ((int)(((byte)(185)))));
             this.ClientSize = new System.Drawing.Size(544, 574);
+            this.Controls.Add(this.oneImagecb);
             this.Controls.Add(this.helpBtn);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label7);
@@ -513,6 +529,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.CheckBox oneImagecb;
     }
 }
 
