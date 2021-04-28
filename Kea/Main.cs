@@ -47,6 +47,7 @@ namespace Kea
         {
             InitializeComponent();
             QueueGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            toolTips.SetToolTip(oneImagecb, "If the image of a chapter exceeds\n30,000 pixels it will be down scaled");
         }
 
         private void HandleBar_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)  //allow moving of the window
@@ -114,7 +115,7 @@ namespace Kea
             EnableControls(minimizeBtn);
             await DownloadQueueAsync();
             EnableAllControls(this);
-            if(PDFcb.Checked) chapterFoldersCB.Enabled = false;
+            if(PDFcb.Checked || oneImagecb.Checked) chapterFoldersCB.Enabled = false;
         }
 
         private async Task DownloadQueueAsync()
@@ -292,12 +293,12 @@ namespace Kea
                                 pointerHeight += images[k].Height;
                             }
                         }
-                        if (true || finalHeight > 30000)
+                        if (finalHeight > 30000)
                         {
                             Bitmap resizedImage = ResizeImage(bm, (int)(images[0].Width * (1.0 - (float)(finalHeight - 30000) / finalHeight)), 30000);
                             resizedImage.Save($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.png");
                         }
-                        ////else bm.Save($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.png");
+                        else bm.Save($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.png");
                     }
                     foreach (var image in images)
                     {

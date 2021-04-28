@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.HandleBar = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -60,6 +61,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.helpBtn = new System.Windows.Forms.Button();
             this.oneImagecb = new System.Windows.Forms.CheckBox();
+            this.toolTips = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.HandleBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exitBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QueueGrid)).BeginInit();
@@ -240,7 +242,7 @@
             // 
             // savepathTB
             // 
-            this.savepathTB.Location = new System.Drawing.Point(12, 400);
+            this.savepathTB.Location = new System.Drawing.Point(12, 397);
             this.savepathTB.Name = "savepathTB";
             this.savepathTB.ReadOnly = true;
             this.savepathTB.Size = new System.Drawing.Size(483, 20);
@@ -254,7 +256,7 @@
             this.selectFolderBtn.Font = new System.Drawing.Font("Segoe MDL2 Assets", 11.25F, System.Drawing.FontStyle.Bold);
             this.selectFolderBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.selectFolderBtn.Image = ((System.Drawing.Image)(resources.GetObject("selectFolderBtn.Image")));
-            this.selectFolderBtn.Location = new System.Drawing.Point(501, 397);
+            this.selectFolderBtn.Location = new System.Drawing.Point(501, 394);
             this.selectFolderBtn.Name = "selectFolderBtn";
             this.selectFolderBtn.Size = new System.Drawing.Size(31, 26);
             this.selectFolderBtn.TabIndex = 16;
@@ -375,7 +377,7 @@
             this.Imagescb.AutoSize = true;
             this.Imagescb.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Imagescb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
-            this.Imagescb.Location = new System.Drawing.Point(404, 455);
+            this.Imagescb.Location = new System.Drawing.Point(280, 454);
             this.Imagescb.Name = "Imagescb";
             this.Imagescb.Size = new System.Drawing.Size(69, 19);
             this.Imagescb.TabIndex = 25;
@@ -388,7 +390,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
-            this.label6.Location = new System.Drawing.Point(9, 382);
+            this.label6.Location = new System.Drawing.Point(9, 379);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 15);
             this.label6.TabIndex = 26;
@@ -440,7 +442,7 @@
             this.oneImagecb.AutoSize = true;
             this.oneImagecb.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.oneImagecb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
-            this.oneImagecb.Location = new System.Drawing.Point(280, 455);
+            this.oneImagecb.Location = new System.Drawing.Point(407, 454);
             this.oneImagecb.Name = "oneImagecb";
             this.oneImagecb.Size = new System.Drawing.Size(87, 19);
             this.oneImagecb.TabIndex = 30;
@@ -530,6 +532,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.CheckBox oneImagecb;
+        private System.Windows.Forms.ToolTip toolTips;
     }
 }
 
