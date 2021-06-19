@@ -2,7 +2,7 @@
 ###### *with GUI and everything!*  
 Kea is an appication for downloading comics from https://www.webtoons.com for personal, offline use.
 ## How To: Download
-Download [Kea v.1.3.3](https://github.com/RustingRobot/Kea/releases/download/v1.3.4/Kea.v1.3.4.zip)
+Download [Kea v.1.3.4](https://github.com/RustingRobot/Kea/releases/download/v1.3.4/Kea.v1.3.4.zip)
 or look at all releases [here](https://github.com/RustingRobot/Kea/releases).  
 After the .zip folder downloaded unzip it and run Kea.exe.  
 *(all files in the Kea folder need to stay in the same directory)*
