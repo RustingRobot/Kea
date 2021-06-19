@@ -21,12 +21,15 @@ To edit Kea, download everything and open ***Kea.sln*** in Visual Studio.
 * These can be changed to any number greater than zero  
 	(the start chapter needs to be smaller than the end chapter)
 <!-- end of the list -->
-![Annotation 2020-08-09 171732](https://user-images.githubusercontent.com/50629201/116462654-fa577480-a869-11eb-9895-36c25b2774af.png)  
+![Annotation 2020-08-09 171732](https://user-images.githubusercontent.com/50629201/122651413-f1cc3d80-d138-11eb-8ba6-5a254ee9b364.png)  
 * Select a save folder by pressing the ***folder*** button  
 * Check ***each catoon*** for the application to save all chapters of a cartoon under a common folder (***each chapter*** works likewise)  
-* The images of a chapter can either be saved as a single PDF document, multible images (.jpg) or one long image (.png)
-	(since all images already get bundled together if a PDF or one long image is created, the option ***each chapter*** is deactivated)  
-* Warning: if a chapter is so long that the resulting merged image exceeds 30,000 pixels in height it will be down scaled (in some cases even until the text isn't readable anymore). In those cases the PDF option may be better.  
+###### There are multible ways chapters can be saved:  
+* ***PDF file:***  every image of a given chapter is saved as a page in a PDF document. This results in one PDF file per chapter.
+* ***CBZ file:***  chapters are saved as a Comic book archive file. Lear more [here](https://en.wikipedia.org/wiki/Comic_book_archive).
+* ***multiple images:***  every image is saved seperately. The number of images per chapter can vary.
+* ***one image:***  every image of a given chapter is stitched together verically to create one very tall image per chapter.
+###### Warning: if a chapter is so long that the resulting merged image exceeds 30,000 pixels in height it will be down scaled (in some cases even until the text isn't readable anymore). In those cases the PDF option may be better.   
 * Now you can click the ***start*** button and wait (all controls should be deactivated until the download is done)  
 ## Contact me
 my discord tag is: Rusting Robot#7758  
