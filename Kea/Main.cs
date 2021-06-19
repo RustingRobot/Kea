@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace Kea
         public float absoluteChapterNR;
         public List<string> chapterLinks, chapterNames;
         public List<string[]> ToonChapters, ToonChapterNames;
+        public string saveAs;
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
@@ -47,7 +49,8 @@ namespace Kea
         {
             InitializeComponent();
             QueueGrid.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
-            toolTips.SetToolTip(oneImagecb, "If the image of a chapter exceeds\n30,000 pixels it will be down scaled");
+            saveAsOption.DropDownStyle = ComboBoxStyle.DropDownList;
+            //toolTips.SetToolTip(oneImagecb, "If the image of a chapter exceeds\n30,000 pixels it will be down scaled");
         }
 
         private void HandleBar_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)  //allow moving of the window
@@ -110,12 +113,13 @@ namespace Kea
                 if(end != 0 && end < start) { MessageBox.Show("The start chapter must smaller than the end chapter!"); return; }
             }
             DisableAllControls(this);
+            saveAs = saveAsOption.Text;
             EnableControls(HandleBar);
             EnableControls(exitBtn);
             EnableControls(minimizeBtn);
             await DownloadQueueAsync();
             EnableAllControls(this);
-            if(PDFcb.Checked || oneImagecb.Checked) chapterFoldersCB.Enabled = false;
+            if(saveAs != "multiple images") chapterFoldersCB.Enabled = false;
         }
 
         private async Task DownloadQueueAsync()
@@ -235,7 +239,7 @@ namespace Kea
                     doc.LoadHtml(html);
                     var div = doc.GetElementbyId("_imageList");
                     HtmlNodeCollection childNodes = div.ChildNodes;
-                    if (chapterFoldersCB.Checked || PDFcb.Checked || oneImagecb.Checked) { Directory.CreateDirectory(savePath + @"\" + $"({i+1}) {ToonChapterNames[t][i]}"); }
+                    if (chapterFoldersCB.Checked || saveAs != "multiple images") { Directory.CreateDirectory(savePath + @"\" + $"({i+1}) {ToonChapterNames[t][i]}"); }
                     for (int j = 0; j < childNodes.Count; j++)  //...download all images!
                     {
                         if (childNodes[j].NodeType == HtmlNodeType.Element)
@@ -243,13 +247,13 @@ namespace Kea
                             processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"downloading image {j / 2} of chapter {i + 1} of the comic \"{curName}\"!"; }); //run on the UI thread
                             client.Headers.Add("Referer", ToonChapters[t][i]);    //refresh the referer for each request!
                             string imgName = $"{curName} Ch{i + 1}.{j / 2}";
-                            if (chapterFoldersCB.Checked || PDFcb.Checked || oneImagecb.Checked) { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\({i+1}) {ToonChapterNames[t][i]}\\{imgName}.jpg"); }
+                            if (chapterFoldersCB.Checked || saveAs != "multiple images") { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\({i+1}) {ToonChapterNames[t][i]}\\{imgName}.jpg"); }
                             else { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\{imgName}.jpg"); }
                             processInfo.Invoke((MethodInvoker)delegate { try { progressBar.Value = i * 100 + (int)(j / (float)childNodes.Count * 100); } catch { } });
                         }
                     }
                 }
-                if (PDFcb.Checked)  //bundle images into PDF
+                if (saveAs == "PDF file")  //bundle images into PDF
                 {
                     DirectoryInfo di = new DirectoryInfo($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}");
                     FileInfo[] fileInfos = di.GetFiles("*.jpg").OrderBy(fi => fi.CreationTime).ToArray();
@@ -272,7 +276,7 @@ namespace Kea
                     finally { doc.Close(); }
                     Directory.Delete($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", true);
                 }
-                else if(oneImagecb.Checked) //bundle images into one long image
+                else if(saveAs == "one image (may be lower in quality)") //bundle images into one long image
                 {
                     DirectoryInfo di = new DirectoryInfo($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}");
                     FileInfo[] fileInfos = di.GetFiles("*.jpg").OrderBy(fi => fi.CreationTime).ToArray();
@@ -308,6 +312,11 @@ namespace Kea
                     {
                         image.Dispose();
                     }
+                    Directory.Delete($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", true);
+                }
+                else if(saveAs == "CBZ file")
+                {
+                    ZipFile.CreateFromDirectory($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", $"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.cbz");
                     Directory.Delete($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", true);
                 }
             }
@@ -360,28 +369,6 @@ namespace Kea
             }
         }
 
-        private void PDFcb_Click(object sender, EventArgs e)
-        {
-            Imagescb.Checked = false;
-            PDFcb.Checked = true;
-            oneImagecb.Checked = false;
-        }
-
-        private void Imagescb_Click(object sender, EventArgs e)
-        {
-            PDFcb.Checked = false;
-            Imagescb.Checked = true;
-            oneImagecb.Checked = false;
-            chapterFoldersCB.Enabled = true; chapterFoldersCB.Checked = true;
-        }
-
-        private void oneImagecb_Click(object sender, EventArgs e)
-        {
-            PDFcb.Checked = false;
-            Imagescb.Checked = false;
-            oneImagecb.Checked = true;
-        }
-
 
         private void removeAllBtn_Click(object sender, EventArgs e)
         {
@@ -412,19 +399,23 @@ namespace Kea
             con.Enabled = false;
         }
 
-        private void PDFcb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (PDFcb.Checked == true) { chapterFoldersCB.Checked = false; chapterFoldersCB.Enabled = false; }
-        }
-
-        private void oneImagecb_CheckedChanged(object sender, EventArgs e)
-        {
-            if (oneImagecb.Checked) { chapterFoldersCB.Checked = false; chapterFoldersCB.Enabled = false; }
-        }
-
         private void helpBtn_Click(object sender, EventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/RustingRobot/Kea#how-to-use");
+            Process.Start("https://github.com/RustingRobot/Kea#how-to-use");
+        }
+
+        private void saveAsOption_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(saveAsOption.Text == "multiple images")
+            {
+                chapterFoldersCB.Enabled = true;
+                chapterFoldersCB.Checked = true;
+            }
+            else
+            {
+                chapterFoldersCB.Enabled = false;
+                chapterFoldersCB.Checked = false;
+            }
         }
 
         private void EnableAllControls(Control con)

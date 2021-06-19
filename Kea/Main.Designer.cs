@@ -54,14 +54,12 @@
             this.removeAllBtn = new System.Windows.Forms.Button();
             this.removeSelectedBtn = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
-            this.PDFcb = new System.Windows.Forms.CheckBox();
-            this.Imagescb = new System.Windows.Forms.CheckBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.helpBtn = new System.Windows.Forms.Button();
-            this.oneImagecb = new System.Windows.Forms.CheckBox();
             this.toolTips = new System.Windows.Forms.ToolTip(this.components);
+            this.saveAsOption = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.HandleBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exitBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QueueGrid)).BeginInit();
@@ -294,7 +292,7 @@
             this.chapterFoldersCB.Enabled = false;
             this.chapterFoldersCB.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chapterFoldersCB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
-            this.chapterFoldersCB.Location = new System.Drawing.Point(280, 426);
+            this.chapterFoldersCB.Location = new System.Drawing.Point(280, 429);
             this.chapterFoldersCB.Name = "chapterFoldersCB";
             this.chapterFoldersCB.Size = new System.Drawing.Size(104, 19);
             this.chapterFoldersCB.TabIndex = 19;
@@ -350,40 +348,11 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
-            this.label5.Location = new System.Drawing.Point(9, 455);
+            this.label5.Location = new System.Drawing.Point(9, 457);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(110, 15);
             this.label5.TabIndex = 23;
             this.label5.Text = "save chapters as:";
-            // 
-            // PDFcb
-            // 
-            this.PDFcb.AutoSize = true;
-            this.PDFcb.Checked = true;
-            this.PDFcb.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.PDFcb.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PDFcb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
-            this.PDFcb.Location = new System.Drawing.Point(154, 454);
-            this.PDFcb.Name = "PDFcb";
-            this.PDFcb.Size = new System.Drawing.Size(56, 19);
-            this.PDFcb.TabIndex = 24;
-            this.PDFcb.Text = "PDFs";
-            this.PDFcb.UseVisualStyleBackColor = true;
-            this.PDFcb.CheckedChanged += new System.EventHandler(this.PDFcb_CheckedChanged);
-            this.PDFcb.Click += new System.EventHandler(this.PDFcb_Click);
-            // 
-            // Imagescb
-            // 
-            this.Imagescb.AutoSize = true;
-            this.Imagescb.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Imagescb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
-            this.Imagescb.Location = new System.Drawing.Point(280, 454);
-            this.Imagescb.Name = "Imagescb";
-            this.Imagescb.Size = new System.Drawing.Size(69, 19);
-            this.Imagescb.TabIndex = 25;
-            this.Imagescb.Text = "images";
-            this.Imagescb.UseVisualStyleBackColor = true;
-            this.Imagescb.Click += new System.EventHandler(this.Imagescb_Click);
             // 
             // label6
             // 
@@ -437,19 +406,21 @@
             this.helpBtn.UseVisualStyleBackColor = false;
             this.helpBtn.Click += new System.EventHandler(this.helpBtn_Click);
             // 
-            // oneImagecb
+            // saveAsOption
             // 
-            this.oneImagecb.AutoSize = true;
-            this.oneImagecb.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.oneImagecb.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
-            this.oneImagecb.Location = new System.Drawing.Point(407, 454);
-            this.oneImagecb.Name = "oneImagecb";
-            this.oneImagecb.Size = new System.Drawing.Size(87, 19);
-            this.oneImagecb.TabIndex = 30;
-            this.oneImagecb.Text = "one image";
-            this.oneImagecb.UseVisualStyleBackColor = true;
-            this.oneImagecb.CheckedChanged += new System.EventHandler(this.oneImagecb_CheckedChanged);
-            this.oneImagecb.Click += new System.EventHandler(this.oneImagecb_Click);
+            this.saveAsOption.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F);
+            this.saveAsOption.FormattingEnabled = true;
+            this.saveAsOption.Items.AddRange(new object[] {
+            "PDF file",
+            "CBZ file",
+            "multiple images",
+            "one image (may be lower in quality)"});
+            this.saveAsOption.Location = new System.Drawing.Point(154, 455);
+            this.saveAsOption.Name = "saveAsOption";
+            this.saveAsOption.Size = new System.Drawing.Size(230, 23);
+            this.saveAsOption.TabIndex = 30;
+            this.saveAsOption.Text = "PDF file";
+            this.saveAsOption.SelectedIndexChanged += new System.EventHandler(this.saveAsOption_SelectedIndexChanged);
             // 
             // Main
             // 
@@ -457,13 +428,11 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(193)))), ((int)(((byte)(185)))));
             this.ClientSize = new System.Drawing.Size(544, 574);
-            this.Controls.Add(this.oneImagecb);
+            this.Controls.Add(this.saveAsOption);
             this.Controls.Add(this.helpBtn);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.Imagescb);
-            this.Controls.Add(this.PDFcb);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.removeSelectedBtn);
             this.Controls.Add(this.removeAllBtn);
@@ -522,8 +491,6 @@
         private System.Windows.Forms.Button removeAllBtn;
         private System.Windows.Forms.Button removeSelectedBtn;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox PDFcb;
-        private System.Windows.Forms.CheckBox Imagescb;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
@@ -531,8 +498,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.CheckBox oneImagecb;
         private System.Windows.Forms.ToolTip toolTips;
+        private System.Windows.Forms.ComboBox saveAsOption;
     }
 }
 
