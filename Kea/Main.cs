@@ -1,7 +1,4 @@
-﻿using HtmlAgilityPack;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -13,6 +10,9 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using HtmlAgilityPack;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using Image = iTextSharp.text.Image;
 using Rectangle = iTextSharp.text.Rectangle;
 
@@ -66,7 +66,7 @@ namespace Kea
         {
             List<string> lines = new List<string>();
             lines.AddRange(URLTextbox.Text.Split('\n'));
-            foreach (var line in lines)
+            foreach (string line in lines)
             {
                 int nameEnd = 0;
                 int nameStart = 0;
@@ -83,7 +83,7 @@ namespace Kea
                 }
                 catch { continue; }
                 if (QueueTextbox.Text.Contains($"/{line.Substring(nameStart, nameEnd - nameStart - 1)}/")) { continue; }
-                QueueTextbox.Text += (QueueTextbox.Text == "") ? line: "\n" + line;
+                QueueTextbox.Text += (QueueTextbox.Text == "") ? line : "\n" + line;
                 QueueGrid.Rows.Add(line.Substring(nameStart, nameEnd - nameStart - 1), "1", "end");
             }
             URLTextbox.Text = "";
@@ -97,20 +97,20 @@ namespace Kea
                 try
                 {
                     start = int.Parse(r.Cells[1].Value.ToString());
-                    if(start < 1) { MessageBox.Show("The start chapter must be greater than zero!"); return; }
+                    if (start < 1) { MessageBox.Show("The start chapter must be greater than zero!"); return; }
                 }
                 catch { MessageBox.Show("The start chapter must be a number!"); return; }
 
-                try 
-                { 
+                try
+                {
                     end = int.Parse(r.Cells[2].Value.ToString());
                     if (end < 1) { MessageBox.Show("The end chapter must be greater than zero!"); return; }
                 }
                 catch
                 {
-                    if(r.Cells[2].Value.ToString() != "end") { MessageBox.Show("The end chapter must be a number or the word 'end'!"); return; }
+                    if (r.Cells[2].Value.ToString() != "end") { MessageBox.Show("The end chapter must be a number or the word 'end'!"); return; }
                 }
-                if(end != 0 && end < start) { MessageBox.Show("The start chapter must smaller than the end chapter!"); return; }
+                if (end != 0 && end < start) { MessageBox.Show("The start chapter must smaller than the end chapter!"); return; }
             }
             DisableAllControls(this);
             saveAs = saveAsOption.Text;
@@ -119,7 +119,7 @@ namespace Kea
             EnableControls(minimizeBtn);
             await DownloadQueueAsync();
             EnableAllControls(this);
-            if(saveAs != "multiple images") chapterFoldersCB.Enabled = false;
+            if (saveAs != "multiple images") chapterFoldersCB.Enabled = false;
         }
 
         private async Task DownloadQueueAsync()
@@ -165,12 +165,12 @@ namespace Kea
                     i++;
                     processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"scoping tab {i}"; }); //run on the UI thread
                     client.Headers.Add("Cookie", "pagGDPR=true;");  //add cookies to bypass age verification
-                    WebProxy proxy = WebProxy.GetDefaultProxy();    //add default proxy
+                    IWebProxy proxy = WebRequest.DefaultWebProxy;   //add default proxy
                     client.Proxy = proxy;
                     string html = await client.DownloadStringTaskAsync(line.Substring(0, urlEnd) + "&page=" + i);
-                    var doc = new HtmlAgilityPack.HtmlDocument();   //HtmlAgility magic
+                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();   //HtmlAgility magic
                     doc.LoadHtml(html);
-                    var div = doc.GetElementbyId("_listUl");
+                    HtmlNode div = doc.GetElementbyId("_listUl");
                     HtmlNodeCollection childNodes = div.ChildNodes;
                     checkedForLink = false;
                     for (int j = 0; j < childNodes.Count; j++)
@@ -232,14 +232,14 @@ namespace Kea
                 using (WebClient client = new WebClient())
                 {
                     client.Headers.Add("Cookie", "pagGDPR=true;");  //add cookies to bypass age verification
-                    WebProxy proxy = WebProxy.GetDefaultProxy();    //add default proxy
+                    IWebProxy proxy = WebRequest.DefaultWebProxy;    //add default proxy
                     client.Proxy = proxy;
                     string html = client.DownloadString(ToonChapters[t][i]);
-                    var doc = new HtmlAgilityPack.HtmlDocument();
+                    HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
                     doc.LoadHtml(html);
-                    var div = doc.GetElementbyId("_imageList");
+                    HtmlNode div = doc.GetElementbyId("_imageList");
                     HtmlNodeCollection childNodes = div.ChildNodes;
-                    if (chapterFoldersCB.Checked || saveAs != "multiple images") { Directory.CreateDirectory(savePath + @"\" + $"({i+1}) {ToonChapterNames[t][i]}"); }
+                    if (chapterFoldersCB.Checked || saveAs != "multiple images") { Directory.CreateDirectory(savePath + @"\" + $"({i + 1}) {ToonChapterNames[t][i]}"); }
                     for (int j = 0; j < childNodes.Count; j++)  //...download all images!
                     {
                         if (childNodes[j].NodeType == HtmlNodeType.Element)
@@ -247,7 +247,7 @@ namespace Kea
                             processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"downloading image {j / 2} of chapter {i + 1} of the comic \"{curName}\"!"; }); //run on the UI thread
                             client.Headers.Add("Referer", ToonChapters[t][i]);    //refresh the referer for each request!
                             string imgName = $"{curName} Ch{i + 1}.{j / 2}";
-                            if (chapterFoldersCB.Checked || saveAs != "multiple images") { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\({i+1}) {ToonChapterNames[t][i]}\\{imgName}.jpg"); }
+                            if (chapterFoldersCB.Checked || saveAs != "multiple images") { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}\\{imgName}.jpg"); }
                             else { client.DownloadFile(new Uri(childNodes[j].Attributes["data-url"].Value), $"{savePath}\\{imgName}.jpg"); }
                             processInfo.Invoke((MethodInvoker)delegate { try { progressBar.Value = i * 100 + (int)(j / (float)childNodes.Count * 100); } catch { } });
                         }
@@ -276,12 +276,12 @@ namespace Kea
                     finally { doc.Close(); }
                     Directory.Delete($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", true);
                 }
-                else if(saveAs == "one image (may be lower in quality)") //bundle images into one long image
+                else if (saveAs == "one image (may be lower in quality)") //bundle images into one long image
                 {
                     DirectoryInfo di = new DirectoryInfo($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}");
                     FileInfo[] fileInfos = di.GetFiles("*.jpg").OrderBy(fi => fi.CreationTime).ToArray();
                     string[] files = fileInfos.Select(o => o.FullName).ToArray();
-                    
+
                     Bitmap[] images = new Bitmap[files.Length];
                     int finalHeight = 0;
                     for (int j = 0; j < images.Length; j++)
@@ -290,7 +290,7 @@ namespace Kea
                         finalHeight += images[j].Height;
                     }
 
-                    using (var bm = new Bitmap(images[0].Width, finalHeight))
+                    using (Bitmap bm = new Bitmap(images[0].Width, finalHeight))
                     {
                         int pointerHeight = 0;
                         using (Graphics g = Graphics.FromImage(bm))
@@ -308,13 +308,13 @@ namespace Kea
                         }
                         else bm.Save($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.png");
                     }
-                    foreach (var image in images)
+                    foreach (Bitmap image in images)
                     {
                         image.Dispose();
                     }
                     Directory.Delete($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", true);
                 }
-                else if(saveAs == "CBZ file")
+                else if (saveAs == "CBZ file")
                 {
                     ZipFile.CreateFromDirectory($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", $"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.cbz");
                     Directory.Delete($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", true);
@@ -324,12 +324,12 @@ namespace Kea
 
         public static Bitmap ResizeImage(System.Drawing.Image image, int width, int height)
         {
-            var destRect = new System.Drawing.Rectangle(0, 0, width, height);
-            var destImage = new Bitmap(width, height);
+            System.Drawing.Rectangle destRect = new System.Drawing.Rectangle(0, 0, width, height);
+            Bitmap destImage = new Bitmap(width, height);
 
             destImage.SetResolution(image.HorizontalResolution, image.VerticalResolution);
 
-            using (var graphics = Graphics.FromImage(destImage))
+            using (Graphics graphics = Graphics.FromImage(destImage))
             {
                 graphics.CompositingMode = CompositingMode.SourceCopy;
                 graphics.CompositingQuality = CompositingQuality.HighQuality;
@@ -337,7 +337,7 @@ namespace Kea
                 graphics.SmoothingMode = SmoothingMode.HighQuality;
                 graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
 
-                using (var wrapMode = new ImageAttributes())
+                using (ImageAttributes wrapMode = new ImageAttributes())
                 {
                     wrapMode.SetWrapMode(WrapMode.TileFlipXY);
                     graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
@@ -358,11 +358,13 @@ namespace Kea
 
         private void selectFolderBtn_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofile = new OpenFileDialog();
-            ofile.ValidateNames = false;
-            ofile.CheckFileExists = false;
-            ofile.CheckPathExists = true;
-            ofile.FileName = "Folder Selection";
+            OpenFileDialog ofile = new OpenFileDialog
+            {
+                ValidateNames = false,
+                CheckFileExists = false,
+                CheckPathExists = true,
+                FileName = "Folder Selection"
+            };
             if (DialogResult.OK == ofile.ShowDialog())
             {
                 savepathTB.Text = Path.GetDirectoryName(ofile.FileName);
@@ -384,7 +386,7 @@ namespace Kea
             QueueTextbox.Text = "";
             string name = QueueGrid.SelectedRows[0].Cells[0].Value.ToString();
             QueueGrid.Rows.RemoveAt(QueueGrid.SelectedRows[0].Index);
-            foreach (var line in lines)
+            foreach (string line in lines)
             {
                 if (!line.Contains($"/{name}/")) { QueueTextbox.Text += line + "\n"; }
             }
@@ -406,7 +408,7 @@ namespace Kea
 
         private void saveAsOption_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(saveAsOption.Text == "multiple images")
+            if (saveAsOption.Text == "multiple images")
             {
                 chapterFoldersCB.Enabled = true;
                 chapterFoldersCB.Checked = true;
