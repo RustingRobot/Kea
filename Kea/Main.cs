@@ -119,7 +119,7 @@ namespace Kea
             EnableControls(minimizeBtn);
             await DownloadQueueAsync();
             EnableAllControls(this);
-            if(saveAs != "multiple images") chapterFoldersCB.Enabled = false;
+            if (saveAs != "multiple images") chapterFoldersCB.Enabled = false;
         }
 
         private async Task DownloadQueueAsync()
