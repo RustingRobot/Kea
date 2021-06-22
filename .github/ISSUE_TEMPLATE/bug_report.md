@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Create a report to let me know something didn't work.
-title: Bug roport
+title: Bug report
 labels: bug
 assignees: RustingRobot
 
