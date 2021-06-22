@@ -26,7 +26,7 @@ To edit Kea, download everything and open ***Kea.sln*** in Visual Studio.
 * Check ***each catoon*** for the application to save all chapters of a cartoon under a common folder (***each chapter*** works likewise)  
 ###### There are multible ways chapters can be saved:  
 * ***PDF file:***  every image of a given chapter is saved as a page in a PDF document. This results in one PDF file per chapter.
-* ***CBZ file:***  chapters are saved as a Comic book archive file. Lear more [here](https://en.wikipedia.org/wiki/Comic_book_archive).
+* ***CBZ file:***  chapters are saved as a Comic book archive file. Learn more [here](https://en.wikipedia.org/wiki/Comic_book_archive).
 * ***multiple images:***  every image is saved seperately. The number of images per chapter can vary.
 * ***one image:***  every image of a given chapter is stitched together verically to create one very tall image per chapter.
 ###### Warning: if a chapter is so long that the resulting merged image exceeds 30,000 pixels in height it will be down scaled (in some cases even until the text isn't readable anymore). In those cases the PDF option may be better.   
