@@ -12,6 +12,9 @@ To edit Kea, download everything and open ***Kea.sln*** in Visual Studio.
 ![enterIntoQueue](https://user-images.githubusercontent.com/50629201/89735665-87506880-da64-11ea-8b7d-213c9d179870.gif)
 * enter all links of the comics you want to download into the uppermost text field  
 	(Links must be seperated by a line break)
+>***Note:*** please don't use links of specific chapters  
+>This would work: https://www.webtoons.com/en/action/hero-killer/list?title_no=2745  
+>But this wouldn't: https://www.webtoons.com/en/action/hero-killer/episode-1/viewer?title_no=2745&episode_no=1  
 * press the ***add all to queue*** button to, uh... add them to the queue  
 	(If a comic does not get added, the link was invalid)
 * Use ***remove selected*** and ***remove all*** to delete comics you dont want to download
