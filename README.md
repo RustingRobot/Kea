@@ -32,8 +32,7 @@ To edit Kea, download everything and open ***Kea.sln*** in Visual Studio.
 ###### Warning: if a chapter is so long that the resulting merged image exceeds 30,000 pixels in height it will be down scaled (in some cases even until the text isn't readable anymore). In those cases the PDF option may be better.   
 * Now you can click the ***start*** button and wait (all controls should be deactivated until the download is done)  
 ## Contact me
-my discord tag is: Rusting Robot#7758  
-or write me an email: rusting.robot.scratch@gmail.com 
+write me an email: rusting.robot.scratch@gmail.com 
 ## used packages
 - **HtmlAgilityPack** - for parsing HTML
 - **ITextSharp** - for converting images to a PDF file
