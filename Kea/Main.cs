@@ -233,6 +233,39 @@ namespace Kea
             }
             for (int i = (int)startNr; i < endNr; i++)    //...and for each chapter in that comic...
             {
+                //We check if the file we want to create already exist to skip existing ones
+                if (saveAs == "PDF file")
+                {
+                    if (File.Exists($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.pdf"))
+                    {
+                        if (cbOneFile.Checked)
+                        {
+                            //We will generate one pdf containing all the chapters downloaded later
+                            listOfFileToCombine.Add($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.pdf");
+                        }
+                        processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"skip chapter {i + 1} of the comic \"{curName}\"!"; });
+                        processInfo.Invoke((MethodInvoker)delegate { try { progressBar.Value = i * 100; } catch { } });
+                        continue;
+                    }
+                }
+                else if (saveAs == "one image (may be lower in quality)")
+                {
+                    if (File.Exists($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.png"))
+                    {
+                        processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"skip chapter {i + 1} of the comic \"{curName}\"!"; });
+                        processInfo.Invoke((MethodInvoker)delegate { try { progressBar.Value = i * 100; } catch { } });
+                        continue;
+                    }
+                }
+                else if (saveAs == "CBZ file")
+                {
+                    if (File.Exists($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.cbz"))
+                    {
+                        processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"skip chapter {i + 1} of the comic \"{curName}\"!"; });
+                        processInfo.Invoke((MethodInvoker)delegate { try { progressBar.Value = i * 100; } catch { } });
+                        continue;
+                    }
+                }
                 processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}"; try { progressBar.Value = i * 100; } catch { } }); //run on the UI thread
                 using (WebClient client = new WebClient())
                 {
