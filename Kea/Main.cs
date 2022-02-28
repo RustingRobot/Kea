@@ -367,7 +367,10 @@ namespace Kea
             {
                 if (saveAs == "PDF file") 
                 {
-                    MergePDFs(listOfFileToCombine, $"{savePath}\\{curName}-C{startNr}-C{endNr}.pdf");
+                    if (!File.Exists($"{savePath}\\{curName}-C{startNr}-C{endNr}.pdf"))
+                    {
+                        MergePDFs(listOfFileToCombine, $"{savePath}\\{curName}-C{startNr}-C{endNr}.pdf");
+                    }
                 }
             }
         }
