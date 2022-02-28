@@ -60,6 +60,7 @@
             this.helpBtn = new System.Windows.Forms.Button();
             this.toolTips = new System.Windows.Forms.ToolTip(this.components);
             this.saveAsOption = new System.Windows.Forms.ComboBox();
+            this.cbOneFile = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.HandleBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.exitBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.QueueGrid)).BeginInit();
@@ -81,11 +82,11 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label1.Location = new System.Drawing.Point(12, 42);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(106, 15);
+            this.label1.Size = new System.Drawing.Size(114, 16);
             this.label1.TabIndex = 2;
             this.label1.Text = "enter URLs below";
             // 
@@ -115,11 +116,11 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label3.Location = new System.Drawing.Point(9, 203);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(43, 15);
+            this.label3.Size = new System.Drawing.Size(46, 16);
             this.label3.TabIndex = 6;
             this.label3.Text = "queue";
             // 
@@ -128,7 +129,7 @@
             this.startBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(165)))), ((int)(((byte)(157)))));
             this.startBtn.FlatAppearance.BorderSize = 0;
             this.startBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.startBtn.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.startBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.startBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.startBtn.Location = new System.Drawing.Point(12, 496);
             this.startBtn.Name = "startBtn";
@@ -153,7 +154,7 @@
             this.addToQueueBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(165)))), ((int)(((byte)(157)))));
             this.addToQueueBtn.FlatAppearance.BorderSize = 0;
             this.addToQueueBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.addToQueueBtn.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.addToQueueBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.addToQueueBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.addToQueueBtn.Location = new System.Drawing.Point(12, 164);
             this.addToQueueBtn.Name = "addToQueueBtn";
@@ -166,11 +167,11 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label4.Location = new System.Drawing.Point(9, 530);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(130, 15);
+            this.label4.Size = new System.Drawing.Size(131, 16);
             this.label4.TabIndex = 12;
             this.label4.Text = "currently processing:";
             // 
@@ -264,11 +265,11 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label2.Location = new System.Drawing.Point(9, 430);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(119, 15);
+            this.label2.Size = new System.Drawing.Size(121, 16);
             this.label2.TabIndex = 17;
             this.label2.Text = "use sub-folders for:";
             // 
@@ -277,11 +278,11 @@
             this.cartoonFoldersCB.AutoSize = true;
             this.cartoonFoldersCB.Checked = true;
             this.cartoonFoldersCB.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cartoonFoldersCB.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cartoonFoldersCB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cartoonFoldersCB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.cartoonFoldersCB.Location = new System.Drawing.Point(154, 429);
             this.cartoonFoldersCB.Name = "cartoonFoldersCB";
-            this.cartoonFoldersCB.Size = new System.Drawing.Size(103, 19);
+            this.cartoonFoldersCB.Size = new System.Drawing.Size(105, 20);
             this.cartoonFoldersCB.TabIndex = 18;
             this.cartoonFoldersCB.Text = "each cartoon";
             this.cartoonFoldersCB.UseVisualStyleBackColor = true;
@@ -290,11 +291,11 @@
             // 
             this.chapterFoldersCB.AutoSize = true;
             this.chapterFoldersCB.Enabled = false;
-            this.chapterFoldersCB.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chapterFoldersCB.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.chapterFoldersCB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.chapterFoldersCB.Location = new System.Drawing.Point(280, 429);
             this.chapterFoldersCB.Name = "chapterFoldersCB";
-            this.chapterFoldersCB.Size = new System.Drawing.Size(104, 19);
+            this.chapterFoldersCB.Size = new System.Drawing.Size(105, 20);
             this.chapterFoldersCB.TabIndex = 19;
             this.chapterFoldersCB.Text = "each chapter";
             this.chapterFoldersCB.UseVisualStyleBackColor = true;
@@ -318,7 +319,7 @@
             this.removeAllBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(165)))), ((int)(((byte)(157)))));
             this.removeAllBtn.FlatAppearance.BorderSize = 0;
             this.removeAllBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removeAllBtn.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.removeAllBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.removeAllBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.removeAllBtn.Location = new System.Drawing.Point(409, 164);
             this.removeAllBtn.Name = "removeAllBtn";
@@ -333,7 +334,7 @@
             this.removeSelectedBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(147)))), ((int)(((byte)(165)))), ((int)(((byte)(157)))));
             this.removeSelectedBtn.FlatAppearance.BorderSize = 0;
             this.removeSelectedBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.removeSelectedBtn.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.removeSelectedBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.removeSelectedBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.removeSelectedBtn.Location = new System.Drawing.Point(280, 164);
             this.removeSelectedBtn.Name = "removeSelectedBtn";
@@ -346,22 +347,22 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label5.Location = new System.Drawing.Point(9, 457);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(110, 15);
+            this.label5.Size = new System.Drawing.Size(114, 16);
             this.label5.TabIndex = 23;
             this.label5.Text = "save chapters as:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.label6.Location = new System.Drawing.Point(9, 379);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(49, 15);
+            this.label6.Size = new System.Drawing.Size(52, 16);
             this.label6.TabIndex = 26;
             this.label6.Text = "options";
             // 
@@ -369,11 +370,11 @@
             // 
             this.label7.AutoSize = true;
             this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(30)))), ((int)(((byte)(14)))));
-            this.label7.Font = new System.Drawing.Font("GT Walsheim Pro Bold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.White;
             this.label7.Location = new System.Drawing.Point(44, 6);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(32, 17);
+            this.label7.Size = new System.Drawing.Size(35, 16);
             this.label7.TabIndex = 27;
             this.label7.Text = "Kea";
             // 
@@ -395,7 +396,7 @@
             this.helpBtn.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.helpBtn.FlatAppearance.BorderSize = 0;
             this.helpBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.helpBtn.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.helpBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.helpBtn.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
             this.helpBtn.Location = new System.Drawing.Point(377, 36);
             this.helpBtn.Name = "helpBtn";
@@ -408,7 +409,7 @@
             // 
             // saveAsOption
             // 
-            this.saveAsOption.Font = new System.Drawing.Font("GT Walsheim Light", 9.749999F);
+            this.saveAsOption.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F);
             this.saveAsOption.FormattingEnabled = true;
             this.saveAsOption.Items.AddRange(new object[] {
             "PDF file",
@@ -417,10 +418,22 @@
             "one image (may be lower in quality)"});
             this.saveAsOption.Location = new System.Drawing.Point(154, 455);
             this.saveAsOption.Name = "saveAsOption";
-            this.saveAsOption.Size = new System.Drawing.Size(230, 23);
+            this.saveAsOption.Size = new System.Drawing.Size(230, 24);
             this.saveAsOption.TabIndex = 30;
             this.saveAsOption.Text = "PDF file";
             this.saveAsOption.SelectedIndexChanged += new System.EventHandler(this.saveAsOption_SelectedIndexChanged);
+            // 
+            // cbOneFile
+            // 
+            this.cbOneFile.AutoSize = true;
+            this.cbOneFile.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.749999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbOneFile.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(36)))), ((int)(((byte)(40)))), ((int)(((byte)(36)))));
+            this.cbOneFile.Location = new System.Drawing.Point(409, 457);
+            this.cbOneFile.Name = "cbOneFile";
+            this.cbOneFile.Size = new System.Drawing.Size(117, 20);
+            this.cbOneFile.TabIndex = 31;
+            this.cbOneFile.Text = "One PDF for all";
+            this.cbOneFile.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -428,6 +441,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(193)))), ((int)(((byte)(185)))));
             this.ClientSize = new System.Drawing.Size(544, 574);
+            this.Controls.Add(this.cbOneFile);
             this.Controls.Add(this.saveAsOption);
             this.Controls.Add(this.helpBtn);
             this.Controls.Add(this.pictureBox1);
@@ -500,6 +514,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.ToolTip toolTips;
         private System.Windows.Forms.ComboBox saveAsOption;
+        private System.Windows.Forms.CheckBox cbOneFile;
     }
 }
 

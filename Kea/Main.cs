@@ -226,6 +226,11 @@ namespace Kea
                 progressBar.Minimum = (int)startNr * 100;
                 progressBar.Maximum = (int)endNr * 100;
             });
+            if (cbOneFile.Checked)
+            {
+                //initialise for later
+                listOfFileToCombine = new List<string>();
+            }
             for (int i = (int)startNr; i < endNr; i++)    //...and for each chapter in that comic...
             {
                 processInfo.Invoke((MethodInvoker)delegate { processInfo.Text = $"grabbing the html of {ToonChapters[t][i]}"; try { progressBar.Value = i * 100; } catch { } }); //run on the UI thread
@@ -270,6 +275,11 @@ namespace Kea
                             doc.SetPageSize(new Rectangle(img.Width, img.Height));
                             doc.NewPage();
                             doc.Add(img);
+                        }
+                        if (cbOneFile.Checked)
+                        {
+                            //We will generate one pdf containing all the chapters downloaded later
+                            listOfFileToCombine.Add($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}.pdf");
                         }
                     }
                     catch { Console.WriteLine("rip"); }
@@ -320,8 +330,51 @@ namespace Kea
                     Directory.Delete($"{savePath}\\({i + 1}) {ToonChapterNames[t][i]}", true);
                 }
             }
+            if (cbOneFile.Checked)
+            {
+                if (saveAs == "PDF file") 
+                {
+                    MergePDFs(listOfFileToCombine, $"{savePath}\\{curName}-C{startNr}-C{endNr}.pdf");
+                }
+            }
         }
-
+        public List<string> listOfFileToCombine;
+        public static bool MergePDFs(IEnumerable<string> fileNames, string targetPdf)
+        {
+            bool merged = true;
+            using (FileStream stream = new FileStream(targetPdf, FileMode.Create))
+            {
+                Document document = new Document();
+                PdfCopy pdf = new PdfCopy(document, stream);
+                PdfReader reader = null;
+                try
+                {
+                    document.Open();
+                    foreach (string file in fileNames)
+                    {
+                        reader = new PdfReader(file);
+                        pdf.AddDocument(reader);
+                        reader.Close();
+                    }
+                }
+                catch (Exception)
+                {
+                    merged = false;
+                    if (reader != null)
+                    {
+                        reader.Close();
+                    }
+                }
+                finally
+                {
+                    if (document != null)
+                    {
+                        document.Close();
+                    }
+                }
+            }
+            return merged;
+        }
         public static Bitmap ResizeImage(System.Drawing.Image image, int width, int height)
         {
             System.Drawing.Rectangle destRect = new System.Drawing.Rectangle(0, 0, width, height);
@@ -412,11 +465,21 @@ namespace Kea
             {
                 chapterFoldersCB.Enabled = true;
                 chapterFoldersCB.Checked = true;
+                cbOneFile.Checked = false;
+                cbOneFile.Enabled = false;
+            }
+           else if (saveAsOption.Text == "PDF file")
+            {
+                chapterFoldersCB.Enabled = false;
+                chapterFoldersCB.Checked = false;
+                cbOneFile.Enabled = true;
             }
             else
             {
                 chapterFoldersCB.Enabled = false;
                 chapterFoldersCB.Checked = false;
+                cbOneFile.Checked = false;
+                cbOneFile.Enabled = false;
             }
         }
 
