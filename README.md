@@ -1,6 +1,8 @@
 # Kea - a webtoons downloader<img align="right" src="https://user-images.githubusercontent.com/50629201/89736764-12812c80-da6c-11ea-881f-4027922270e6.png" alt="drawing" width="200"/>  
 ###### *with GUI and everything!*  
-Kea is an appication for downloading comics from https://www.webtoons.com for personal, offline use.
+Kea is an appication for downloading comics from https://www.webtoons.com for personal, offline use.  
+  
+>***Note:*** Kea is currently not actively maintained and will stay that way for the foreseeable future. It works fine in most cases but I currently don't have the time to iron out any bugs. I would like to rework the entire project, but that must wait for now.
 ## How To: Download
 Download [Kea v.1.3.4](https://github.com/RustingRobot/Kea/releases/download/v1.3.4/Kea.v1.3.4.zip)
 or look at all releases [here](https://github.com/RustingRobot/Kea/releases).  
@@ -35,7 +37,7 @@ To edit Kea, download everything and open ***Kea.sln*** in Visual Studio.
 ###### Warning: if a chapter is so long that the resulting merged image exceeds 30,000 pixels in height it will be down scaled (in some cases even until the text isn't readable anymore). In those cases the PDF option may be better.   
 * Now you can click the ***start*** button and wait (all controls should be deactivated until the download is done)  
 ## Contact me
-write me an email: rusting.robot.scratch@gmail.com 
+write me an email: rusting.robot.scratch@gmail.com
 ## used packages
 - **HtmlAgilityPack** - for parsing HTML
 - **ITextSharp** - for converting images to a PDF file
